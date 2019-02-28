@@ -4,17 +4,18 @@ import java.util.List;
 
 import org.springframework.http.ResponseEntity;
 
+import com.capco.resource.model.ResponseObject;
 import com.capco.resource.model.UserInfo;
 
 public interface RegistrationService {
 	
-	public  ResponseEntity<String> registeruser(UserInfo user);
+	public  ResponseEntity<ResponseObject> hrRegister(UserInfo user);
 
-	public  ResponseEntity<String> updateuser(UserInfo user);
+	public  ResponseEntity<ResponseObject> userRegister(UserInfo user);
 
 
-	public ResponseEntity<String> verify(UserInfo login);
+	public ResponseEntity<ResponseObject> verify(UserInfo login);
 	 
-	 public List<UserInfo> retrive();
+	 public ResponseEntity<List<UserInfo>> retrive();
 	 
 }

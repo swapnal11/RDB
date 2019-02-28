@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.capco.resource.model.ResponseObject;
 import com.capco.resource.model.UserInfo;
 
 import com.capco.resource.service.RegistrationService;
@@ -19,37 +20,44 @@ import com.capco.resource.service.RegistrationService;
 @RequestMapping(value="/api")
 public class RegistrationController {
 	
+	ResponseEntity response;
+	
 	@Autowired
 	RegistrationService registrationservice;
 	
-	@PostMapping(value = "/register")
-	 public ResponseEntity<String> save(@RequestBody UserInfo user) {
+	@PostMapping(value = "/hrRegister")
+	 public ResponseEntity<String> hrRegister(@RequestBody UserInfo user) {
 		
-		return registrationservice.registeruser(user);
-		
-		
-		}
-	
-	@PutMapping(value = "/updateuser")
-	 public ResponseEntity<String> updateuser(@RequestBody UserInfo user) {
-		
-		return registrationservice.updateuser(user);
+		response = registrationservice.hrRegister(user);
+		return response;
 		
 		
 		}
 	
-	@PostMapping(value = "/verify")
-	 public ResponseEntity<String> verify(@RequestBody UserInfo login) {
+	@PutMapping(value = "/userRegister")
+	 public ResponseEntity<String> userRegister(@RequestBody UserInfo user) {
+		response = registrationservice.userRegister(user);
+		return response;
 		
-		return registrationservice.verify(login);
 		
 		
 		}
 	
-	@GetMapping(value = "/retrive")
-	 public List<UserInfo> retrive() {
+	@PostMapping(value = "/login")
+    public ResponseEntity<ResponseObject> verify(@RequestBody UserInfo login) {
+           
+            response = registrationservice.verify(login);
+           
+           return response;
+           
+           }
+
+	
+	@GetMapping(value = "/retriveAll")
+	 public ResponseEntity<List<UserInfo>> retrive() {
 		
-		return registrationservice.retrive();
+		response = registrationservice.retrive();
+		return response;
 		
 		
 		}

@@ -9,11 +9,16 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.capco.resource.model.ResponseObject;
+import com.capco.resource.model.Result;
 import com.capco.resource.model.Skill;
+import com.capco.resource.model.Status;
 import com.capco.resource.model.UserInfo;
 import com.capco.resource.repository.SkillRepo;
 import com.capco.resource.repository.UserRepo;
 import com.capco.resource.service.RegistrationService;
+
+
 
 @Service
 public class RegistrationServiceImpl implements RegistrationService {
@@ -24,18 +29,24 @@ public class RegistrationServiceImpl implements RegistrationService {
 	@Autowired
 	SkillRepo skillRepo;
 	
-	
-
+	 ResponseObject object=new ResponseObject();
+     Status status=new Status();
+     Result result = new Result();
+   
 
 	@Override
-	public ResponseEntity<String> registeruser(UserInfo userinfo) {
+	public ResponseEntity<ResponseObject> hrRegister(UserInfo userinfo) {
 
-		UserInfo saveuser = new UserInfo();
+	 UserInfo saveuser = new UserInfo();
 	 UserInfo userById = userRepo.findByEmpId(userinfo.getEmpId());
 	 if(userById!=null) {
 		 
 		if(userById.getEmpId().equals(userinfo.getEmpId())) {
-		return new ResponseEntity<>("EmpId Already Exists", HttpStatus.BAD_REQUEST);
+			 status.setCode("400");
+		     status.setMessage("EmpId is already registered");
+		     object.setStatus(status);
+				return new ResponseEntity<>(object, HttpStatus.BAD_REQUEST);
+		
 		 }
 		 }
 	 else {
@@ -48,31 +59,68 @@ public class RegistrationServiceImpl implements RegistrationService {
 			saveuser.setEmployeeName(userinfo.getEmployeeName());
 			userRepo.save(saveuser);
 			}
-	 else 
-			return new ResponseEntity<>("Please Enter your details", HttpStatus.BAD_REQUEST);
-		
+	 else {
+		 status.setCode("400");
+	     status.setMessage("Data cannot be empty");
+	     object.setStatus(status);
+			return new ResponseEntity<>(object, HttpStatus.BAD_REQUEST);
+	 }
 	}
-	 return new ResponseEntity<>("You have Sucessfully Signup. Please login here", HttpStatus.OK);
+	 status.setCode("200");
+     status.setMessage("Success");
+     object.setStatus(status);
+    
+	 return new ResponseEntity<>(object, HttpStatus.OK);
 		
 	}	
 	
 	
-	public ResponseEntity<String> verify(UserInfo login) {
-		UserInfo user = userRepo.findByEmpId(login.getEmpId());
-		 
-		 if(user!=null) {
-			 if(user.getPassword().equals(login.getPassword())) {
-			 }
-			 else
-				  return new ResponseEntity<String>("Bad Credentials",HttpStatus.BAD_REQUEST) ;
-		 }
-		 
-		  return new ResponseEntity<String>("Login Successfull",HttpStatus.OK) ;
-	}
+	
+	
+	public ResponseEntity<ResponseObject> verify(UserInfo login) {
+        UserInfo user = userRepo.findByEmpId(login.getEmpId());
+         if(user!=null) {
+               if(user.getPassword().equals(login.getPassword())) {
+               }
+               else
+                       return new ResponseEntity<ResponseObject>(HttpStatus.BAD_REQUEST) ;
+        }
+ 
+        result.setDesignation(user.getDesignation());
+        result.setEmpId(user.getEmpId());
+        result.setEmployeeEmail(user.getEmployeeEmail());
+        result.setStatus(user.getStatus());
+        result.setProjectManager(user.getProjectManager());
+        result.setEmployeeName(user.getEmployeeName());
+        result.setExperience(user.getExperience());
+        List<Skill> skills = new ArrayList<>();
+        List<Skill> skilldata = user.getSkills();
+               for(Skill userskill:skilldata) {
+                     Skill skill = new Skill();
+                     skill.setUserInfo(user);
+                     skill.setExperience(userskill.getExperience());
+                     skill.setSkillName(userskill.getSkillName());
+                     
+                     skills.add(skill);
+               }
+        
+         result.setSkills(skills);
+        status.setCode("200");
+        status.setMessage("Success");
+        
+        // response.setResult(saveuser);
+        
+        
+         
+         object.setStatus(status);
+        object.setResult(result);
+        return new ResponseEntity<>(object, HttpStatus.OK); 
+        // return new ResponseEntity<ResponseObject>(HttpStatus.OK,saveuser) ;
+ }
 
 
 	@Override
-	public List<UserInfo> retrive() {
+	public ResponseEntity<List<UserInfo>> retrive() {
 		List<UserInfo> userlist = new  ArrayList();
 		List<UserInfo> list = userRepo.findAll();
 		
@@ -84,17 +132,15 @@ public class RegistrationServiceImpl implements RegistrationService {
 			user.setEmployeeName(userdetails.getEmployeeName());
 			userlist.add(user);
 		}
-		return userlist;
+		
+		return ResponseEntity.status(HttpStatus.OK).body(userlist);
 	}
 
 
 	@Override
-	public ResponseEntity<String> updateuser(UserInfo user) {
-			 System.out.println("USer---------------"+user.toString());
-		 UserInfo userById = userRepo.findByEmpId(user.getEmpId());	 
-		 System.out.println("userById---------------"+userById);
-		 
-		 if(userById!=null) {
+	public ResponseEntity<ResponseObject> userRegister(UserInfo user) {
+			 UserInfo userById = userRepo.findByEmpId(user.getEmpId());	 
+			 if(userById!=null) {
 			 
 			if(userById.getEmpId().equals(user.getEmpId())  && userById.getEmployeeEmail().equals(user.getEmployeeEmail())) {
 				if(user!=null) {
@@ -110,23 +156,40 @@ public class RegistrationServiceImpl implements RegistrationService {
 						skill.setSkillName(userskill.getSkillName());
 						skills.add(skill);
 					}
-					
-					//userById.setSkills(skills);
-					skillRepo.saveAll(skills);			
-					
+					skillRepo.saveAll(skills);				
 					userRepo.save(userById);
 				
 				}
 				else {
-					return new ResponseEntity<>("Please Enter the data", HttpStatus.BAD_REQUEST);
-					}
+					 status.setCode("400");
+				     status.setMessage("Please Enter the details");
+				     object.setStatus(status);
+						return new ResponseEntity<>(object, HttpStatus.BAD_REQUEST);
+				}
 				}
 		 
-		 else 				
-				return new ResponseEntity<>("Incorrect Details", HttpStatus.BAD_REQUEST);
-				}
-		 return new ResponseEntity<>("You have Sucessfully Signup. Please login here", HttpStatus.OK);
+		 else {
+			 status.setCode("400");
+		     status.setMessage("Incorrect Details");
+		     object.setStatus(status);
+				return new ResponseEntity<>(object, HttpStatus.BAD_REQUEST);
 		
+		 }				
+				}
+			 else {
+				 status.setCode("400");
+			     status.setMessage("EmpId or Email may be wrong");
+			     object.setStatus(status);
+					return new ResponseEntity<>(object, HttpStatus.BAD_REQUEST);
+			 
+			 }
+		 status.setCode("200");
+	     status.setMessage("Success");
+	     object.setStatus(status);
+	    
+		 return new ResponseEntity<>(object, HttpStatus.OK);
+			    
+				
 	}		
 }
 
