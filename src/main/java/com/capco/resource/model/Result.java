@@ -26,14 +26,6 @@ public class Result implements Serializable{
 	private String designation;
 	private String password;
 	
-	@OneToMany(
-            cascade = {CascadeType.PERSIST, CascadeType.MERGE},
-            orphanRemoval = false,
-            mappedBy = "Result",
-            fetch = FetchType.EAGER)
-    
-	private List<Skill> skills;
-	
 	
 	private String status;
 	
@@ -43,6 +35,15 @@ public class Result implements Serializable{
 	
 	private String experience;
 
+	
+	@OneToMany(
+            cascade = {CascadeType.PERSIST, CascadeType.MERGE},
+            orphanRemoval = false,
+            mappedBy = "Result",
+            fetch = FetchType.EAGER)
+    
+	private List<Skill> skills;
+	
 
 	public Long getEmpId() {
 		return empId;

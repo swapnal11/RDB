@@ -45,8 +45,7 @@ public class RegistrationServiceImpl implements RegistrationService {
 			 status.setCode("400");
 		     status.setMessage("EmpId is already registered");
 		     object.setStatus(status);
-				return new ResponseEntity<>(object, HttpStatus.BAD_REQUEST);
-		
+				return new ResponseEntity<>(object, HttpStatus.BAD_REQUEST);	
 		 }
 		 }
 	 else {
@@ -81,42 +80,39 @@ public class RegistrationServiceImpl implements RegistrationService {
         UserInfo user = userRepo.findByEmpId(login.getEmpId());
          if(user!=null) {
                if(user.getPassword().equals(login.getPassword())) {
+            	   result.setDesignation(user.getDesignation());
+                   result.setEmpId(user.getEmpId());
+                   result.setEmployeeEmail(user.getEmployeeEmail());
+                   result.setStatus(user.getStatus());
+                   result.setProjectManager(user.getProjectManager());
+                   result.setEmployeeName(user.getEmployeeName());
+                   result.setExperience(user.getExperience());
+                   List<Skill> skills= new ArrayList<>();
+           		 List<Skill> skilldetails = user.getSkills();
+           		 for(Skill skillinfo:skilldetails) {
+           		Skill skilldata = new Skill();
+           		skilldata.setSkillName(skillinfo.getSkillName());
+           		skilldata.setExperience(skillinfo.getExperience());
+           		skills.add(skilldata);
+           		
+           		}
+                    result.setSkills(skills);
+                   status.setCode("200");
+                   status.setMessage("Success");
+                        object.setStatus(status);
+                   object.setResult(result);
                }
-               else
-                       return new ResponseEntity<ResponseObject>(HttpStatus.BAD_REQUEST) ;
-        }
+               else {
+            	   status.setCode("400");
+      		     status.setMessage("Please Enter Valid Credentials");
+      		     object.setStatus(status);
+      				//return new ResponseEntity<>(object, HttpStatus.BAD_REQUEST);
+      	  }
+               }
  
-        result.setDesignation(user.getDesignation());
-        result.setEmpId(user.getEmpId());
-        result.setEmployeeEmail(user.getEmployeeEmail());
-        result.setStatus(user.getStatus());
-        result.setProjectManager(user.getProjectManager());
-        result.setEmployeeName(user.getEmployeeName());
-        result.setExperience(user.getExperience());
-        List<Skill> skills = new ArrayList<>();
-        List<Skill> skilldata = user.getSkills();
-               for(Skill userskill:skilldata) {
-                     Skill skill = new Skill();
-                     skill.setUserInfo(user);
-                     skill.setExperience(userskill.getExperience());
-                     skill.setSkillName(userskill.getSkillName());
-                     
-                     skills.add(skill);
-               }
-        
-         result.setSkills(skills);
-        status.setCode("200");
-        status.setMessage("Success");
-        
-        // response.setResult(saveuser);
-        
-        
-         
-         object.setStatus(status);
-        object.setResult(result);
+     
         return new ResponseEntity<>(object, HttpStatus.OK); 
-        // return new ResponseEntity<ResponseObject>(HttpStatus.OK,saveuser) ;
- }
+      }
 
 
 	@Override
@@ -126,10 +122,19 @@ public class RegistrationServiceImpl implements RegistrationService {
 		
 		for(UserInfo userdetails:list) {
 			UserInfo user= new UserInfo();
-			user.setDesignation(userdetails.getDesignation());
 			user.setEmpId(userdetails.getEmpId());
 			user.setEmployeeEmail(userdetails.getEmployeeEmail());
 			user.setEmployeeName(userdetails.getEmployeeName());
+			user.setStatus(userdetails.getStatus());
+			List<Skill> skills= new ArrayList<>();
+			 List<Skill> skilldetails = userdetails.getSkills();
+			 for(Skill skillinfo:skilldetails) {
+			Skill skilldata = new Skill();
+			skilldata.setSkillName(skillinfo.getSkillName());
+			skills.add(skilldata);
+			
+			}
+			 user.setSkills(skills);
 			userlist.add(user);
 		}
 		
