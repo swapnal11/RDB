@@ -19,7 +19,6 @@ public class UserInfo {
 	
 	@Id	
 	@Column
-	@GeneratedValue(strategy= GenerationType.IDENTITY)
 	private Long empId;
 	
 	@Column
@@ -141,10 +140,12 @@ public class UserInfo {
 
 	@Override
 	public String toString() {
-		return "UserInfo [empId=" + empId + ", employeeName=" + employeeName + ", employeeEmail="
-				+ employeeEmail + ", designation=" + designation + ", password=" + password
-				+ "]";
+		return "UserInfo [empId=" + empId + ", employeeName=" + employeeName + ", employeeEmail=" + employeeEmail
+				+ ", designation=" + designation + ", password=" + password + ", status=" + status + ", projectManager="
+				+ projectManager + ", experience=" + experience + ", skills=" + skills + "]";
 	}
+
+	
 	
 	
 	

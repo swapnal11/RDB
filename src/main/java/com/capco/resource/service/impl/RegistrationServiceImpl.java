@@ -2,7 +2,7 @@ package com.capco.resource.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -90,8 +90,10 @@ public class RegistrationServiceImpl implements RegistrationService {
 
 	@Override
 	public ResponseEntity<String> updateuser(UserInfo user) {
-			 
+			 System.out.println("USer---------------"+user.toString());
 		 UserInfo userById = userRepo.findByEmpId(user.getEmpId());	 
+		 System.out.println("userById---------------"+userById);
+		 
 		 if(userById!=null) {
 			 
 			if(userById.getEmpId().equals(user.getEmpId())  && userById.getEmployeeEmail().equals(user.getEmployeeEmail())) {
@@ -103,12 +105,14 @@ public class RegistrationServiceImpl implements RegistrationService {
 					List<Skill> skilldata = user.getSkills();
 					for(Skill userskill:skilldata) {
 						Skill skill = new Skill();
+						skill.setUserInfo(userById);
 						skill.setExperience(userskill.getExperience());
 						skill.setSkillName(userskill.getSkillName());
 						skills.add(skill);
 					}
 					
-					//skillRepo.save(skills);			
+					//userById.setSkills(skills);
+					skillRepo.saveAll(skills);			
 					
 					userRepo.save(userById);
 				
