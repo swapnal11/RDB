@@ -48,7 +48,7 @@ public class RegistrationServiceImpl implements RegistrationService {
 		     object.setStatus(status);
 				return new ResponseEntity<>(object, HttpStatus.BAD_REQUEST);	
 		 }
-		 
+	  
 	 else {
 		 if(userinfo!=null) {
 			saveuser.setDesignation(userinfo.getDesignation());
@@ -69,7 +69,7 @@ public class RegistrationServiceImpl implements RegistrationService {
 	 }
 	 else {
 		 status.setCode("400");
-	     status.setMessage("Data cannot be empty");
+	     status.setMessage("Empty Data");
 	     object.setStatus(status);
 			return new ResponseEntity<>(object, HttpStatus.BAD_REQUEST);
 	
@@ -118,11 +118,16 @@ public class RegistrationServiceImpl implements RegistrationService {
                }
                else {
             	   status.setCode("400");
-      		     status.setMessage("Please Enter Valid Credentials");
+      		     status.setMessage("Password is incorect");
       		     object.setStatus(status);
-      				//return new ResponseEntity<>(object, HttpStatus.BAD_REQUEST);
+      				return new ResponseEntity<>(object, HttpStatus.BAD_REQUEST);
       	  }
-               }
+               }else {
+            	   status.setCode("400");
+      		     status.setMessage("Enter Valid Details");
+      		     object.setStatus(status);
+      				return new ResponseEntity<>(object, HttpStatus.BAD_REQUEST);
+      	  }
  
 		}catch(Exception e) {
 			 e.printStackTrace();
