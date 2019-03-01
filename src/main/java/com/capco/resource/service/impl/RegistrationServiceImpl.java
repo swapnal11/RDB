@@ -48,9 +48,10 @@ public class RegistrationServiceImpl implements RegistrationService {
 		     object.setStatus(status);
 				return new ResponseEntity<>(object, HttpStatus.BAD_REQUEST);	
 		 }
-	  
+	 }
+	 
 	 else {
-		 if(userinfo!=null) {
+		 if(userinfo.getEmpId()!=null && userinfo!=null) {
 			saveuser.setDesignation(userinfo.getDesignation());
 			saveuser.setEmpId(userinfo.getEmpId());
 			saveuser.setEmployeeEmail(userinfo.getEmployeeEmail());
@@ -58,6 +59,7 @@ public class RegistrationServiceImpl implements RegistrationService {
 			saveuser.setProjectManager(userinfo.getProjectManager());
 			saveuser.setEmployeeName(userinfo.getEmployeeName());
 			userRepo.save(saveuser);
+			
 			}
 	 else {
 		 status.setCode("400");
@@ -66,15 +68,14 @@ public class RegistrationServiceImpl implements RegistrationService {
 			return new ResponseEntity<>(object, HttpStatus.BAD_REQUEST);
 	 }
 	}
-	 }
+	/* }	
 	 else {
 		 status.setCode("400");
-	     status.setMessage("Empty Data");
+	     status.setMessage("Data is null");
 	     object.setStatus(status);
 			return new ResponseEntity<>(object, HttpStatus.BAD_REQUEST);
-	
-		 
-	 }
+	 
+	 }*/
 	 }catch(Exception e){
 		 
 		 e.printStackTrace();
@@ -82,18 +83,16 @@ public class RegistrationServiceImpl implements RegistrationService {
 	 status.setCode("200");
      status.setMessage("Success");
      object.setStatus(status);
-    
 	 return new ResponseEntity<>(object, HttpStatus.OK);
-		
-	}	
+	 	}	
 	
 	
 	public ResponseEntity<ResponseObject> verify(UserInfo login) {
 		
 		try {
         UserInfo user = userRepo.findByEmpId(login.getEmpId());
-         if(user!=null) {
-               if(user.getPassword().equals(login.getPassword())) {
+         if(user!=null && user.getEmpId()!=null) {
+               if(user.getPassword().equals(login.getPassword())&& user.getEmpId().equals(login.getEmpId())) {
             	   result.setDesignation(user.getDesignation());
                    result.setEmpId(user.getEmpId());
                    result.setEmployeeEmail(user.getEmployeeEmail());
@@ -111,18 +110,15 @@ public class RegistrationServiceImpl implements RegistrationService {
            		
            		}
                     result.setSkills(skills);
-                   status.setCode("200");
-                   status.setMessage("Success");
-                        object.setStatus(status);
-                   object.setResult(result);
-               }
+                    }
                else {
             	   status.setCode("400");
-      		     status.setMessage("Password is incorect");
+      		     status.setMessage("Enter Valid Details");
       		     object.setStatus(status);
       				return new ResponseEntity<>(object, HttpStatus.BAD_REQUEST);
       	  }
-               }else {
+               }
+         else {
             	   status.setCode("400");
       		     status.setMessage("Enter Valid Details");
       		     object.setStatus(status);
@@ -132,6 +128,11 @@ public class RegistrationServiceImpl implements RegistrationService {
 		}catch(Exception e) {
 			 e.printStackTrace();
 		}
+		  status.setCode("200");
+          status.setMessage("Success");
+          object.setStatus(status);
+          object.setResult(result);
+   
         return new ResponseEntity<>(object, HttpStatus.OK); 
       }
 
