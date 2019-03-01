@@ -13,9 +13,11 @@ public interface RegistrationService {
 
 	public  ResponseEntity<ResponseObject> userRegister(UserInfo user);
 
-
 	public ResponseEntity<ResponseObject> verify(UserInfo login);
 	 
 	 public ResponseEntity<List<UserInfo>> retrive();
+	 
+	 
+	 
 	 
 }

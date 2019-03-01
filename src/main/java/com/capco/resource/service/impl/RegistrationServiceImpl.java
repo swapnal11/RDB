@@ -38,6 +38,7 @@ public class RegistrationServiceImpl implements RegistrationService {
 	public ResponseEntity<ResponseObject> hrRegister(UserInfo userinfo) {
 
 	 UserInfo saveuser = new UserInfo();
+	 try {
 	 UserInfo userById = userRepo.findByEmpId(userinfo.getEmpId());
 	 if(userById!=null) {
 		 
@@ -47,7 +48,7 @@ public class RegistrationServiceImpl implements RegistrationService {
 		     object.setStatus(status);
 				return new ResponseEntity<>(object, HttpStatus.BAD_REQUEST);	
 		 }
-		 }
+		 
 	 else {
 		 if(userinfo!=null) {
 			saveuser.setDesignation(userinfo.getDesignation());
@@ -65,6 +66,19 @@ public class RegistrationServiceImpl implements RegistrationService {
 			return new ResponseEntity<>(object, HttpStatus.BAD_REQUEST);
 	 }
 	}
+	 }
+	 else {
+		 status.setCode("400");
+	     status.setMessage("Data cannot be empty");
+	     object.setStatus(status);
+			return new ResponseEntity<>(object, HttpStatus.BAD_REQUEST);
+	
+		 
+	 }
+	 }catch(Exception e){
+		 
+		 e.printStackTrace();
+	 }
 	 status.setCode("200");
      status.setMessage("Success");
      object.setStatus(status);
@@ -74,9 +88,9 @@ public class RegistrationServiceImpl implements RegistrationService {
 	}	
 	
 	
-	
-	
 	public ResponseEntity<ResponseObject> verify(UserInfo login) {
+		
+		try {
         UserInfo user = userRepo.findByEmpId(login.getEmpId());
          if(user!=null) {
                if(user.getPassword().equals(login.getPassword())) {
@@ -110,14 +124,18 @@ public class RegistrationServiceImpl implements RegistrationService {
       	  }
                }
  
-     
+		}catch(Exception e) {
+			 e.printStackTrace();
+		}
         return new ResponseEntity<>(object, HttpStatus.OK); 
       }
 
 
 	@Override
 	public ResponseEntity<List<UserInfo>> retrive() {
+		
 		List<UserInfo> userlist = new  ArrayList();
+		try {
 		List<UserInfo> list = userRepo.findAll();
 		
 		for(UserInfo userdetails:list) {
@@ -137,6 +155,9 @@ public class RegistrationServiceImpl implements RegistrationService {
 			 user.setSkills(skills);
 			userlist.add(user);
 		}
+		}catch(Exception e) {
+			 e.printStackTrace();
+		}
 		
 		return ResponseEntity.status(HttpStatus.OK).body(userlist);
 	}
@@ -144,7 +165,8 @@ public class RegistrationServiceImpl implements RegistrationService {
 
 	@Override
 	public ResponseEntity<ResponseObject> userRegister(UserInfo user) {
-			 UserInfo userById = userRepo.findByEmpId(user.getEmpId());	 
+			 UserInfo userById = userRepo.findByEmpId(user.getEmpId());	
+			 try {
 			 if(userById!=null) {
 			 
 			if(userById.getEmpId().equals(user.getEmpId())  && userById.getEmployeeEmail().equals(user.getEmployeeEmail())) {
@@ -187,6 +209,10 @@ public class RegistrationServiceImpl implements RegistrationService {
 			     object.setStatus(status);
 					return new ResponseEntity<>(object, HttpStatus.BAD_REQUEST);
 			 
+			 }
+			 }
+			 catch(Exception e) {
+				 e.printStackTrace();
 			 }
 		 status.setCode("200");
 	     status.setMessage("Success");
