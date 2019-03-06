@@ -5,14 +5,14 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.capco.resource.model.Skill;
+import com.capco.resource.model.FilterData;
 import com.capco.resource.model.UserInfo;
 
 
 @Repository
-public interface SkillRepo extends JpaRepository<Skill, Long> {
+public interface FilterRepo extends JpaRepository<UserInfo, String>{
 	
-	List<Skill> findBySkillName(List<String> skillName);
-
+	List<UserInfo> findByExperienceAndStatusIn(String experience,List<String> status); 
+	
 
 }

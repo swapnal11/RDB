@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+
 import org.springframework.stereotype.Service;
 
 import com.capco.resource.model.ResponseObject;
@@ -28,7 +29,6 @@ public class RegistrationServiceImpl implements RegistrationService {
 	
 	@Autowired
 	SkillRepo skillRepo;
-	
 	 ResponseObject object=new ResponseObject();
      Status status=new Status();
      Result result = new Result();
@@ -42,7 +42,7 @@ public class RegistrationServiceImpl implements RegistrationService {
 	 UserInfo userById = userRepo.findByEmpId(userinfo.getEmpId());
 	 if(userById!=null) {
 		 
-		if(userById.getEmpId().equals(userinfo.getEmpId())) {
+		if(userById.getEmpId()==(userinfo.getEmpId())) {
 			 status.setCode("400");
 		     status.setMessage("EmpId is already registered");
 		     object.setStatus(status);
@@ -51,7 +51,7 @@ public class RegistrationServiceImpl implements RegistrationService {
 	 }
 	 
 	 else {
-		 if(userinfo.getEmpId()!=null && userinfo!=null) {
+		 if(userinfo.getEmpId()!=0 && userinfo!=null) {
 			saveuser.setDesignation(userinfo.getDesignation());
 			saveuser.setEmpId(userinfo.getEmpId());
 			saveuser.setEmployeeEmail(userinfo.getEmployeeEmail());
@@ -91,8 +91,9 @@ public class RegistrationServiceImpl implements RegistrationService {
 		
 		try {
         UserInfo user = userRepo.findByEmpId(login.getEmpId());
-         if(user!=null && user.getEmpId()!=null) {
-               if(user.getPassword().equals(login.getPassword())&& user.getEmpId().equals(login.getEmpId())) {
+         if(user!=null && user.getEmpId()!=0) {
+        
+               if(user.getPassword().equals(login.getPassword())&& user.getEmpId()==(login.getEmpId())) {
             	   result.setDesignation(user.getDesignation());
                    result.setEmpId(user.getEmpId());
                    result.setEmployeeEmail(user.getEmployeeEmail());
@@ -105,7 +106,7 @@ public class RegistrationServiceImpl implements RegistrationService {
            		 for(Skill skillinfo:skilldetails) {
            		Skill skilldata = new Skill();
            		skilldata.setSkillName(skillinfo.getSkillName());
-           		skilldata.setExperience(skillinfo.getExperience());
+           		skilldata.setSkillExperience(skillinfo.getSkillExperience());
            		skills.add(skilldata);
            		
            		}
@@ -174,10 +175,14 @@ public class RegistrationServiceImpl implements RegistrationService {
 			 UserInfo userById = userRepo.findByEmpId(user.getEmpId());	
 			 try {
 			 if(userById!=null) {
+				 
 			 
-			if(userById.getEmpId().equals(user.getEmpId())  && userById.getEmployeeEmail().equals(user.getEmployeeEmail())) {
+			if(userById.getEmpId()==(user.getEmpId())) {
+				
+				if(userById.getEmployeeEmail().equals(user.getEmployeeEmail())) {
+			
 				if(user!=null) {
-					userById.setPassword(user.getPassword());
+					userById.setPassword(user.getPassword());	
 					userById.setEmployeeName(user.getEmployeeName());
 					userById.setExperience(user.getExperience());
 					List<Skill> skills = new ArrayList<>();
@@ -185,7 +190,7 @@ public class RegistrationServiceImpl implements RegistrationService {
 					for(Skill userskill:skilldata) {
 						Skill skill = new Skill();
 						skill.setUserInfo(userById);
-						skill.setExperience(userskill.getExperience());
+						skill.setSkillExperience(userskill.getSkillExperience());
 						skill.setSkillName(userskill.getSkillName());
 						skills.add(skill);
 					}
@@ -199,22 +204,29 @@ public class RegistrationServiceImpl implements RegistrationService {
 				     object.setStatus(status);
 						return new ResponseEntity<>(object, HttpStatus.BAD_REQUEST);
 				}
+				
+				}else {
+					 status.setCode("400");
+				     status.setMessage("Email ID may be wrong");
+				     object.setStatus(status);
+						return new ResponseEntity<>(object, HttpStatus.BAD_REQUEST);
+				
 				}
-		 
-		 else {
-			 status.setCode("400");
-		     status.setMessage("Incorrect Details");
-		     object.setStatus(status);
-				return new ResponseEntity<>(object, HttpStatus.BAD_REQUEST);
-		
-		 }				
+		 			
 				}
 			 else {
 				 status.setCode("400");
-			     status.setMessage("EmpId or Email may be wrong");
+			     status.setMessage("Emp ID may be wrong");
 			     object.setStatus(status);
 					return new ResponseEntity<>(object, HttpStatus.BAD_REQUEST);
 			 
+			 }
+			 }else {
+				 status.setCode("400");
+			     status.setMessage("Emp ID may be wrong");
+			     object.setStatus(status);
+					return new ResponseEntity<>(object, HttpStatus.BAD_REQUEST);
+		
 			 }
 			 }
 			 catch(Exception e) {

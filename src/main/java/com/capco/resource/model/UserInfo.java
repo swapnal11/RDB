@@ -1,4 +1,4 @@
-package com.capco.resource.model;
+  package com.capco.resource.model;
 
 import java.util.List;
 
@@ -18,8 +18,8 @@ public class UserInfo {
 	
 	
 	@Id	
-	@Column
-	private Long empId;
+	@Column(name="emp_id")
+	private int empId;
 	
 	@Column
 	private String employeeName;
@@ -47,7 +47,7 @@ public class UserInfo {
             cascade = {CascadeType.PERSIST, CascadeType.MERGE},
             orphanRemoval = false,
             mappedBy = "userInfo",
-            fetch = FetchType.EAGER
+            fetch = FetchType.LAZY
     )
 	private List<Skill> skills;
 	
@@ -97,11 +97,11 @@ public class UserInfo {
 		super();
 	}
 
-	public Long getEmpId() {
+	public int getEmpId() {
 		return empId;
 	}
 
-	public void setEmpId(Long empId) {
+	public void setEmpId(int empId) {
 		this.empId = empId;
 	}
 

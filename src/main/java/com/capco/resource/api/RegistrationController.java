@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.capco.resource.model.ResponseObject;
+import com.capco.resource.model.Skill;
 import com.capco.resource.model.UserInfo;
 
 import com.capco.resource.service.RegistrationService;
@@ -54,6 +55,8 @@ public class RegistrationController {
            return response;
            
            }
+	
+	
 
 	
 	@GetMapping(value = "/retriveAll")

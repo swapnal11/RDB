@@ -20,7 +20,7 @@ public class Result implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private Long empId;
+	private int empId;
 	private String employeeName;
 	private String employeeEmail;
 	private String designation;
@@ -45,7 +45,7 @@ public class Result implements Serializable{
 	private List<Skill> skills;
 	
 
-	public Long getEmpId() {
+	public int getEmpId() {
 		return empId;
 	}
 
@@ -60,8 +60,8 @@ public class Result implements Serializable{
 	}
 
 
-	public void setEmpId(Long empId) {
-		this.empId = empId;
+	public void setEmpId(int i) {
+		this.empId = i;
 	}
 
 

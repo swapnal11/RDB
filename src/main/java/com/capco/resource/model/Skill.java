@@ -20,15 +20,15 @@ public class Skill {
 	@Column
 	private int id;
 
-	@ManyToOne(fetch = FetchType.EAGER,  cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-	    @JoinColumn(name="empId", nullable=false)
+	@ManyToOne(fetch = FetchType.LAZY,  cascade = {CascadeType.PERSIST})
+	    @JoinColumn(name="emp_id", nullable=false)
 	    private UserInfo userInfo;	
 	 
 	@Column(name="skill")
 	private String skillName;
 	
 	@Column
-	private String experience;
+	private String skillExperience;
 	
 	
 
@@ -62,13 +62,15 @@ public class Skill {
 		this.skillName = skillName;
 	}
 
-	public String getExperience() {
-		return experience;
+	public String getSkillExperience() {
+		return skillExperience;
 	}
 
-	public void setExperience(String experience) {
-		this.experience = experience;
+	public void setSkillExperience(String skillExperience) {
+		this.skillExperience = skillExperience;
 	}
+
+
 	
 	
 	
