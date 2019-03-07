@@ -38,7 +38,7 @@ public class RegistrationController {
 		
 		}
 	
-	@PutMapping(value = "/userRegister")
+	@PostMapping(value = "/userRegister")
 	 public ResponseEntity<String> userRegister(@RequestBody UserInfo user) {
 		response = registrationservice.userRegister(user);
 		return response;

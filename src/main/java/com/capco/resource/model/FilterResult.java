@@ -1,5 +1,7 @@
 package com.capco.resource.model;
 
+import java.util.List;
+
 public class FilterResult {
 
 	
@@ -9,8 +11,9 @@ public class FilterResult {
 	
 	private String experience;
 	
-	private String skillName;
+	private List<String> skillNameList;
 	
+	private String skillName;
 	
 	
 
@@ -42,6 +45,14 @@ public class FilterResult {
 		this.experience = experience;
 	}
 
+	public List<String> getSkillNameList() {
+		return skillNameList;
+	}
+
+	public void setSkillNameList(List<String> skillNameList) {
+		this.skillNameList = skillNameList;
+	}
+
 	public String getSkillName() {
 		return skillName;
 	}
@@ -49,8 +60,10 @@ public class FilterResult {
 	public void setSkillName(String skillName) {
 		this.skillName = skillName;
 	}
-	
-	
+
+ 
+
+
 	
 	
 	

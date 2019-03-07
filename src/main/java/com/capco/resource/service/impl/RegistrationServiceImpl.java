@@ -51,7 +51,7 @@ public class RegistrationServiceImpl implements RegistrationService {
 	 }
 	 
 	 else {
-		 if(userinfo.getEmpId()!=0 && userinfo!=null) {
+		 if(userinfo.getEmpId()!=0 && userinfo!=null ) {
 			saveuser.setDesignation(userinfo.getDesignation());
 			saveuser.setEmpId(userinfo.getEmpId());
 			saveuser.setEmployeeEmail(userinfo.getEmployeeEmail());
@@ -59,30 +59,23 @@ public class RegistrationServiceImpl implements RegistrationService {
 			saveuser.setProjectManager(userinfo.getProjectManager());
 			saveuser.setEmployeeName(userinfo.getEmployeeName());
 			userRepo.save(saveuser);
+			 status.setCode("200");
+		     status.setMessage("Success");
+		     object.setStatus(status);
 			
 			}
 	 else {
 		 status.setCode("400");
-	     status.setMessage("Data cannot be empty");
+	     status.setMessage("Please Enter the details");
 	     object.setStatus(status);
 			return new ResponseEntity<>(object, HttpStatus.BAD_REQUEST);
 	 }
 	}
-	/* }	
-	 else {
-		 status.setCode("400");
-	     status.setMessage("Data is null");
-	     object.setStatus(status);
-			return new ResponseEntity<>(object, HttpStatus.BAD_REQUEST);
-	 
-	 }*/
 	 }catch(Exception e){
 		 
 		 e.printStackTrace();
 	 }
-	 status.setCode("200");
-     status.setMessage("Success");
-     object.setStatus(status);
+	
 	 return new ResponseEntity<>(object, HttpStatus.OK);
 	 	}	
 	
@@ -92,8 +85,9 @@ public class RegistrationServiceImpl implements RegistrationService {
 		try {
         UserInfo user = userRepo.findByEmpId(login.getEmpId());
          if(user!=null && user.getEmpId()!=0) {
-        
-               if(user.getPassword().equals(login.getPassword())&& user.getEmpId()==(login.getEmpId())) {
+        	 if( user.getEmpId()==(login.getEmpId())) {
+        		 
+               if(user.getPassword().equals(login.getPassword())) {
             	   result.setDesignation(user.getDesignation());
                    result.setEmpId(user.getEmpId());
                    result.setEmployeeEmail(user.getEmployeeEmail());
@@ -108,31 +102,39 @@ public class RegistrationServiceImpl implements RegistrationService {
            		skilldata.setSkillName(skillinfo.getSkillName());
            		skilldata.setSkillExperience(skillinfo.getSkillExperience());
            		skills.add(skilldata);
-           		
+           		status.setCode("200");
+                status.setMessage("Success");
+                object.setStatus(status);
+                object.setResult(result);
            		}
                     result.setSkills(skills);
+                    }else {
+                    	  status.setCode("400");
+             		     status.setMessage("Password is wrong");
+             		     object.setStatus(status);
+             		     
+             			return new ResponseEntity<>(object, HttpStatus.BAD_REQUEST);
+             
                     }
-               else {
+            		   
+            	   }else {
+            		   status.setCode("400");
+            		     status.setMessage("EmpId is wrong");
+            		     object.setStatus(status);
+            			return new ResponseEntity<>(object, HttpStatus.BAD_REQUEST);
+            	   }
+               }else {
             	   status.setCode("400");
-      		     status.setMessage("Enter Valid Details");
-      		     object.setStatus(status);
-      				return new ResponseEntity<>(object, HttpStatus.BAD_REQUEST);
-      	  }
-               }
-         else {
-            	   status.setCode("400");
-      		     status.setMessage("Enter Valid Details");
-      		     object.setStatus(status);
-      				return new ResponseEntity<>(object, HttpStatus.BAD_REQUEST);
-      	  }
- 
+        		     status.setMessage("EmpId is wrong");
+        		     object.setStatus(status);
+        				return new ResponseEntity<>(object, HttpStatus.BAD_REQUEST);
+            	   
+               }       	 
+		              
 		}catch(Exception e) {
 			 e.printStackTrace();
 		}
-		  status.setCode("200");
-          status.setMessage("Success");
-          object.setStatus(status);
-          object.setResult(result);
+		  
    
         return new ResponseEntity<>(object, HttpStatus.OK); 
       }
@@ -174,43 +176,60 @@ public class RegistrationServiceImpl implements RegistrationService {
 	public ResponseEntity<ResponseObject> userRegister(UserInfo user) {
 			 UserInfo userById = userRepo.findByEmpId(user.getEmpId());	
 			 try {
-			 if(userById!=null) {
-				 
-			 
-			if(userById.getEmpId()==(user.getEmpId())) {
-				
+			 if(userById!=null) {	 
+			if(userById.getEmpId()==(user.getEmpId())) {			
 				if(userById.getEmployeeEmail().equals(user.getEmployeeEmail())) {
-			
-				if(user!=null) {
-					userById.setPassword(user.getPassword());	
-					userById.setEmployeeName(user.getEmployeeName());
-					userById.setExperience(user.getExperience());
-					List<Skill> skills = new ArrayList<>();
-					List<Skill> skilldata = user.getSkills();
-					for(Skill userskill:skilldata) {
-						Skill skill = new Skill();
-						skill.setUserInfo(userById);
-						skill.setSkillExperience(userskill.getSkillExperience());
-						skill.setSkillName(userskill.getSkillName());
-						skills.add(skill);
+					
+					if(user.getPassword().equals("")) {
+						status.setCode("400");
+					     status.setMessage("Password not set");
+					     object.setStatus(status);
+							return new ResponseEntity<>(object, HttpStatus.BAD_REQUEST);
+				
 					}
-					skillRepo.saveAll(skills);				
-					userRepo.save(userById);
+					if(userById.getPassword()!=null  ) {
+						status.setCode("400");
+					     status.setMessage("Account already exist");
+					     object.setStatus(status);
+							return new ResponseEntity<>(object, HttpStatus.BAD_REQUEST);
 				
-				}
-				else {
-					 status.setCode("400");
-				     status.setMessage("Please Enter the details");
-				     object.setStatus(status);
-						return new ResponseEntity<>(object, HttpStatus.BAD_REQUEST);
-				}
+					}else {
+						
+						if(user!=null) {
+							
+							userById.setPassword(user.getPassword());	
+							userById.setEmployeeName(user.getEmployeeName());
+							userById.setExperience(user.getExperience());
+							List<Skill> skills = new ArrayList<>();
+							List<Skill> skilldata = user.getSkills();
+							for(Skill userskill:skilldata) {
+								Skill skill = new Skill();
+								skill.setUserInfo(userById);
+								skill.setSkillExperience(userskill.getSkillExperience());
+								skill.setSkillName(userskill.getSkillName());
+								skills.add(skill);
+							}
+							skillRepo.saveAll(skills);				
+							userRepo.save(userById);
+							 status.setCode("200");
+						     status.setMessage("Success");
+						     object.setStatus(status);
+						}
+						else {
+							 status.setCode("400");
+						     status.setMessage("Please Enter the details");
+						     object.setStatus(status);
+								return new ResponseEntity<>(object, HttpStatus.BAD_REQUEST);
+						} 
+					}
 				
+						
+					
 				}else {
 					 status.setCode("400");
 				     status.setMessage("Email ID may be wrong");
 				     object.setStatus(status);
 						return new ResponseEntity<>(object, HttpStatus.BAD_REQUEST);
-				
 				}
 		 			
 				}
@@ -223,7 +242,7 @@ public class RegistrationServiceImpl implements RegistrationService {
 			 }
 			 }else {
 				 status.setCode("400");
-			     status.setMessage("Emp ID may be wrong");
+			     status.setMessage("Emp ID not registered");
 			     object.setStatus(status);
 					return new ResponseEntity<>(object, HttpStatus.BAD_REQUEST);
 		
@@ -232,9 +251,7 @@ public class RegistrationServiceImpl implements RegistrationService {
 			 catch(Exception e) {
 				 e.printStackTrace();
 			 }
-		 status.setCode("200");
-	     status.setMessage("Success");
-	     object.setStatus(status);
+		
 	    
 		 return new ResponseEntity<>(object, HttpStatus.OK);
 			    
