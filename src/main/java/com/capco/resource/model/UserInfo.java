@@ -45,7 +45,10 @@ public class UserInfo {
 	private String projectManager;
 	
 	@Column
-	private String experience;
+	private int experienceYear;
+	
+	@Column
+	private int experienceMonth;
 	
 	//@OneToMany(cascade = CascadeType.PERSIST)
 	@OneToMany(
@@ -56,20 +59,7 @@ public class UserInfo {
     )
 	private List<Skill> skills;
 	
-	/* @OneToMany(
-	            cascade = {CascadeType.PERSIST, CascadeType.MERGE},
-	            mappedBy = "employeeInfo",
-	            fetch = FetchType.EAGER
-	    )
-	   
-	    private List<Skill> skills;
-*/
 	
-
-	public String getExperience() {
-		return experience;
-	}
-
 	public List<Skill> getSkills() {
 		return skills;
 	}
@@ -78,8 +68,21 @@ public class UserInfo {
 		this.skills = skills;
 	}
 
-	public void setExperience(String experience) {
-		this.experience = experience;
+
+	public int getExperienceYear() {
+		return experienceYear;
+	}
+
+	public void setExperienceYear(int experienceYear) {
+		this.experienceYear = experienceYear;
+	}
+
+	public int getExperienceMonth() {
+		return experienceMonth;
+	}
+
+	public void setExperienceMonth(int experienceMonth) {
+		this.experienceMonth = experienceMonth;
 	}
 
 	public String getStatus() {
@@ -147,8 +150,11 @@ public class UserInfo {
 	public String toString() {
 		return "UserInfo [empId=" + empId + ", employeeName=" + employeeName + ", employeeEmail=" + employeeEmail
 				+ ", designation=" + designation + ", password=" + password + ", status=" + status + ", projectManager="
-				+ projectManager + ", experience=" + experience + ", skills=" + skills + "]";
+				+ projectManager + ", experienceYear=" + experienceYear + ", experienceMonth=" + experienceMonth
+				+ ", skills=" + skills + "]";
 	}
+
+	
 
 	
 	

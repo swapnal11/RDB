@@ -2,6 +2,9 @@ package com.capco.resource.model;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+@JsonInclude(Include.NON_NULL)
 public class FilterResult {
 
 	
@@ -9,9 +12,7 @@ public class FilterResult {
 	
 	private String employeeName;
 	
-	private String experience;
-	
-	private List<String> skillNameList;
+	private int experienceYear;
 	
 	private String skillName;
 	
@@ -37,21 +38,16 @@ public class FilterResult {
 		this.employeeName = employeeName;
 	}
 
-	public String getExperience() {
-		return experience;
+	
+
+	public int getExperienceYear() {
+		return experienceYear;
 	}
 
-	public void setExperience(String experience) {
-		this.experience = experience;
+	public void setExperienceYear(int experienceYear) {
+		this.experienceYear = experienceYear;
 	}
 
-	public List<String> getSkillNameList() {
-		return skillNameList;
-	}
-
-	public void setSkillNameList(List<String> skillNameList) {
-		this.skillNameList = skillNameList;
-	}
 
 	public String getSkillName() {
 		return skillName;

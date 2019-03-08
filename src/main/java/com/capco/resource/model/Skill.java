@@ -32,8 +32,7 @@ public class Skill {
 	private String skillName;
 	
 	@Column
-	private String skillExperience;
-	
+	private int skillExperience;
 	
 
 	public Skill() {
@@ -66,14 +65,15 @@ public class Skill {
 		this.skillName = skillName;
 	}
 
-	public String getSkillExperience() {
+	public int getSkillExperience() {
 		return skillExperience;
 	}
 
-	public void setSkillExperience(String skillExperience) {
+	public void setSkillExperience(int skillExperience) {
 		this.skillExperience = skillExperience;
 	}
 
+	
 
 	
 	

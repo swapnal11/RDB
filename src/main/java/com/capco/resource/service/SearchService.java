@@ -13,5 +13,7 @@ import com.capco.resource.model.UserInfo;
 public interface SearchService {
 	
 	 public List<FilterResult> searchResult(FilterData result);
+	 
+	 UserInfo searchbyId(int empId);
 
 }

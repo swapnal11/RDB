@@ -52,36 +52,26 @@ public class SearchServiceImpl implements SearchService{
 	
 		List<FilterResult> resultdata = new ArrayList<>();
 		try {
-			String experience = result.getExperience();
+			int experience = result.getExperienceYear();
 			 List<String> statuslist = result.getStatus();
-			 List<String> namelist = result.getSkillName();
-			 
+			 List<String> namelist = result.getSkillName();	 
 			
-			List<Object[]>	resultList=userRepo.findBySkillsSkillNameInAndExperienceAndStatusIn(namelist,experience,statuslist);
-			System.out.println("q----"+resultList);
+			List<Object[]>	resultList=userRepo.findBySkillsSkillNameInAndExperienceYearAndStatusIn(namelist,experience,statuslist);
+			
 	  for(Object[] resultobj1:resultList) {
 		  
 		  List<String> skillList= new ArrayList<>(); 
 		  FilterResult temp= new FilterResult();
 		  temp.setEmpId((int) resultobj1[0]);
 		  temp.setEmployeeName(resultobj1[1].toString());
-		  temp.setExperience((String) resultobj1[2]);
+		  temp.setExperienceYear((int)resultobj1[2]);
 		  temp.setSkillName((String) resultobj1[3]);
 
 		  skillList.add((String) resultobj1[3]);
 		  resultobj.add(temp);
 	  }  
 	  
-	 /* Map<Integer, List<FilterResult>> personByCity = new HashMap<>(); 
-	  for(FilterResult p : resultobj)
-	  { if(!personByCity.containsKey(p.getEmpId()))
-	  { personByCity.put(p.getEmpId(), new ArrayList<>()); }
-	  personByCity.get(p.getEmpId()).add((FilterResult) p); }
 
-	  personByCity = resultobj.stream() .collect(Collectors.groupingBy(FilterResult :: getEmpId)); 
-	  System.out.println("Person grouped by cities in Java 8: " + personByCity); 
-
-*/
 	
 	  }
 		catch(Exception e) {
@@ -90,6 +80,12 @@ public class SearchServiceImpl implements SearchService{
 		return  resultobj;
 	
 
+	}
+
+	@Override
+	public UserInfo searchbyId(int empId) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

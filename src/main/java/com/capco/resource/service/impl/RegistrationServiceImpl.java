@@ -94,7 +94,8 @@ public class RegistrationServiceImpl implements RegistrationService {
                    result.setStatus(user.getStatus());
                    result.setProjectManager(user.getProjectManager());
                    result.setEmployeeName(user.getEmployeeName());
-                   result.setExperience(user.getExperience());
+                   result.setExperienceYear(user.getExperienceYear());
+                   result.setExperienceMonth(user.getExperienceMonth());
                    List<Skill> skills= new ArrayList<>();
            		 List<Skill> skilldetails = user.getSkills();
            		 for(Skill skillinfo:skilldetails) {
@@ -199,7 +200,8 @@ public class RegistrationServiceImpl implements RegistrationService {
 							
 							userById.setPassword(user.getPassword());	
 							userById.setEmployeeName(user.getEmployeeName());
-							userById.setExperience(user.getExperience());
+							userById.setExperienceMonth(user.getExperienceMonth());
+							userById.setExperienceYear(user.getExperienceYear());
 							List<Skill> skills = new ArrayList<>();
 							List<Skill> skilldata = user.getSkills();
 							for(Skill userskill:skilldata) {

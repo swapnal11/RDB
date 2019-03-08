@@ -33,7 +33,11 @@ public class Result implements Serializable{
 	private String projectManager;
 	
 	
-	private String experience;
+	
+	private int experienceYear;
+	
+	
+	private int experienceMonth;
 
 	
 	@OneToMany(
@@ -125,14 +129,27 @@ public class Result implements Serializable{
 	}
 
 
-	public String getExperience() {
-		return experience;
+	public int getExperienceYear() {
+		return experienceYear;
 	}
 
 
-	public void setExperience(String experience) {
-		this.experience = experience;
+	public void setExperienceYear(int experienceYear) {
+		this.experienceYear = experienceYear;
 	}
+
+
+	public int getExperienceMonth() {
+		return experienceMonth;
+	}
+
+
+	public void setExperienceMonth(int experienceMonth) {
+		this.experienceMonth = experienceMonth;
+	}
+
+
+	
 	
 	
 

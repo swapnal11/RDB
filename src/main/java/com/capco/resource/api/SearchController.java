@@ -37,6 +37,16 @@ ResponseEntity response;
          
            
            }
+	
+	@PostMapping(value = "/search/{empId}")
+    public UserInfo searchbyId(@RequestBody int empId ) {
+           
+		return serachservice.searchbyId(empId);
+           
+         
+           
+           }
+	
 
 	
 

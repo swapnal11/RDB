@@ -12,7 +12,7 @@ import com.capco.resource.model.UserInfo;
 @Repository
 public interface FilterRepo extends JpaRepository<UserInfo, String>{
 	
-	List<UserInfo> findByExperienceAndStatusIn(String experience,List<String> status); 
+	//List<UserInfo> findByExperienceAndStatusIn(String experience,List<String> status); 
 	
 
 }

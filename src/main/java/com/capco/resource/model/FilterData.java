@@ -6,15 +6,18 @@ import java.util.List;
 import javax.persistence.Entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 @JsonIgnoreProperties
+@JsonInclude(Include.NON_NULL)
 public class FilterData implements Serializable{
 	
 
 	
 	private List<String> status;
  
- private String experience;
+ private int experienceYear;
  
  private List<String> skillName;
  
@@ -27,7 +30,16 @@ public FilterData() {
 
 
 
+public int getExperienceYear() {
+	return experienceYear;
+}
 
+
+
+
+public void setExperienceYear(int experienceYear) {
+	this.experienceYear = experienceYear;
+}
 
 
 
@@ -39,48 +51,6 @@ public List<String> getStatus() {
 public void setStatus(List<String> status) {
 	this.status = status;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-public String getExperience() {
-	return experience;
-}
-
-
-
-
-
-
-
-
-
-public void setExperience(String experience) {
-	this.experience = experience;
-}
-
-
-
-
-
-
-
 
 
 public List<String> getSkillName() {
