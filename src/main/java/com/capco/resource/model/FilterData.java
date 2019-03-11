@@ -14,10 +14,10 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 public class FilterData implements Serializable{
 	
 
-	
+	private String experience;
 	private List<String> status;
  
- private int experienceYear;
+ private int experienceYears;
  
  private List<String> skillName;
  
@@ -30,16 +30,45 @@ public FilterData() {
 
 
 
-public int getExperienceYear() {
-	return experienceYear;
+
+
+
+public String getExperience() {
+	return experience;
 }
 
 
 
 
-public void setExperienceYear(int experienceYear) {
-	this.experienceYear = experienceYear;
+
+
+
+public void setExperience(String experience) {
+	this.experience = experience;
 }
+
+
+
+
+
+
+
+public int getExperienceYears() {
+	return experienceYears;
+}
+
+
+
+
+
+
+
+public void setExperienceYears(int experienceYears) {
+	this.experienceYears = experienceYears;
+}
+
+
+
 
 
 

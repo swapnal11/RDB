@@ -34,10 +34,10 @@ public class Result implements Serializable{
 	
 	
 	
-	private int experienceYear;
+	private int experienceYears;
 	
 	
-	private int experienceMonth;
+	private int experienceMonths;
 
 	
 	@OneToMany(
@@ -129,24 +129,27 @@ public class Result implements Serializable{
 	}
 
 
-	public int getExperienceYear() {
-		return experienceYear;
+	public int getExperienceYears() {
+		return experienceYears;
 	}
 
 
-	public void setExperienceYear(int experienceYear) {
-		this.experienceYear = experienceYear;
+	public void setExperienceYears(int experienceYears) {
+		this.experienceYears = experienceYears;
 	}
 
 
-	public int getExperienceMonth() {
-		return experienceMonth;
+	public int getExperienceMonths() {
+		return experienceMonths;
 	}
 
 
-	public void setExperienceMonth(int experienceMonth) {
-		this.experienceMonth = experienceMonth;
+	public void setExperienceMonths(int experienceMonths) {
+		this.experienceMonths = experienceMonths;
 	}
+
+
+	
 
 
 	

@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,25 +31,50 @@ ResponseEntity response;
 	@Autowired
 	SearchService serachservice;
 	
-	@PostMapping(value = "/search")
-    public List<FilterResult> searchResult(@RequestBody FilterData result ) {
+	
+	
+	@PostMapping(value = "/filterSearch")
+    public ResponseEntity<ResponseObject> searchResult(@RequestBody FilterData result ) {
            
-		return serachservice.searchResult(result);
+		 
+				response = serachservice.searchResult(result);
+		return response;
            
          
            
            }
 	
-	@PostMapping(value = "/search/{empId}")
-    public UserInfo searchbyId(@RequestBody int empId ) {
+	@PostMapping(value = "/searchUser")
+    public  ResponseEntity<ResponseObject> searchbyId(@RequestBody UserInfo user ) {
            
-		return serachservice.searchbyId(empId);
+		response = serachservice.searchbyIdAndEmail(user);
+		
+		return response;
            
          
            
            }
 	
-
+	@GetMapping(value = "/searchUser/{id}")
+    public  ResponseEntity<ResponseObject> searchbyId(@PathVariable int id ) {
+           
+		response = serachservice.searchbyId(id);
+		
+		return response;
+           
+         
+           
+           }
 	
+	@PostMapping(value = "/deleteUserById")
+    public  ResponseEntity<ResponseObject> deleteUserbyId(@RequestBody UserInfo user ) {
+           
+		response = serachservice.deleteUserbyId(user);
+		
+		return response;
+           
+         
+           
+           }
 
 }

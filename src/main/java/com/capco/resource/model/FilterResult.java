@@ -12,9 +12,11 @@ public class FilterResult {
 	
 	private String employeeName;
 	
-	private int experienceYear;
+	private int experienceYears;
 	
 	private String skillName;
+	
+	private String status;
 	
 	
 
@@ -40,14 +42,16 @@ public class FilterResult {
 
 	
 
-	public int getExperienceYear() {
-		return experienceYear;
+
+
+
+	public int getExperienceYears() {
+		return experienceYears;
 	}
 
-	public void setExperienceYear(int experienceYear) {
-		this.experienceYear = experienceYear;
+	public void setExperienceYears(int experienceYears) {
+		this.experienceYears = experienceYears;
 	}
-
 
 	public String getSkillName() {
 		return skillName;
@@ -55,6 +59,14 @@ public class FilterResult {
 
 	public void setSkillName(String skillName) {
 		this.skillName = skillName;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
 	}
 
  

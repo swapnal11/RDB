@@ -45,10 +45,14 @@ public class UserInfo {
 	private String projectManager;
 	
 	@Column
-	private int experienceYear;
+	private int experienceYears;
 	
 	@Column
-	private int experienceMonth;
+	private int experienceMonths;
+	
+	@Column(columnDefinition = "BIT(1) default 1")
+    private Boolean flag = true;
+
 	
 	//@OneToMany(cascade = CascadeType.PERSIST)
 	@OneToMany(
@@ -68,21 +72,28 @@ public class UserInfo {
 		this.skills = skills;
 	}
 
-
-	public int getExperienceYear() {
-		return experienceYear;
+	public boolean isFlag() {
+		return flag;
 	}
 
-	public void setExperienceYear(int experienceYear) {
-		this.experienceYear = experienceYear;
+	public void setFlag(boolean flag) {
+		this.flag = flag;
 	}
 
-	public int getExperienceMonth() {
-		return experienceMonth;
+	public int getExperienceYears() {
+		return experienceYears;
 	}
 
-	public void setExperienceMonth(int experienceMonth) {
-		this.experienceMonth = experienceMonth;
+	public void setExperienceYears(int experienceYears) {
+		this.experienceYears = experienceYears;
+	}
+
+	public int getExperienceMonths() {
+		return experienceMonths;
+	}
+
+	public void setExperienceMonths(int experienceMonths) {
+		this.experienceMonths = experienceMonths;
 	}
 
 	public String getStatus() {
@@ -150,7 +161,7 @@ public class UserInfo {
 	public String toString() {
 		return "UserInfo [empId=" + empId + ", employeeName=" + employeeName + ", employeeEmail=" + employeeEmail
 				+ ", designation=" + designation + ", password=" + password + ", status=" + status + ", projectManager="
-				+ projectManager + ", experienceYear=" + experienceYear + ", experienceMonth=" + experienceMonth
+				+ projectManager + ", experienceYear=" + experienceYears + ", experienceMonth=" + experienceMonths
 				+ ", skills=" + skills + "]";
 	}
 

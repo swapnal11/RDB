@@ -12,8 +12,13 @@ import com.capco.resource.model.UserInfo;
 
 public interface SearchService {
 	
-	 public List<FilterResult> searchResult(FilterData result);
+	 public ResponseEntity<ResponseObject> searchResult(FilterData result);
 	 
-	 UserInfo searchbyId(int empId);
+	 public  ResponseEntity<ResponseObject> searchbyIdAndEmail(UserInfo user);
+	 	 
+	 public  ResponseEntity<ResponseObject> searchbyId(int id);
+		
+	 public  ResponseEntity<ResponseObject> deleteUserbyId(UserInfo user);
+		
 
 }
