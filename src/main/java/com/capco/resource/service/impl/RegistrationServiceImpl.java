@@ -92,11 +92,14 @@ public class RegistrationServiceImpl implements RegistrationService {
 		
 		try {
         UserInfo user = userRepo.findByEmpId(login.getEmpId());
-         if(user.isFlag()==true) {
+         
          if(user!=null && user.getEmpId()!=0) {
+        	 
         	 if( user.getEmpId()==(login.getEmpId())) {
         		 
                if(user.getPassword().equals(login.getPassword())) {
+            	   
+            	  if(user.isFlag()==true) {
             	   result.setDesignation(user.getDesignation());
                    result.setEmpId(user.getEmpId());
                    result.setEmployeeEmail(user.getEmployeeEmail());
@@ -118,6 +121,14 @@ public class RegistrationServiceImpl implements RegistrationService {
                 object.setResult(result);
            		}
                     result.setSkills(skills);
+            	  }else {
+                	  status.setCode("400");
+          		     status.setMessage("User not found");
+          		     object.setStatus(status);
+          		     object.setResult(null);
+          				return new ResponseEntity<>(object, HttpStatus.BAD_REQUEST);
+             
+                 }  
                     }else {
                     	  status.setCode("400");
              		     status.setMessage("Password is wrong");
@@ -143,14 +154,7 @@ public class RegistrationServiceImpl implements RegistrationService {
         				return new ResponseEntity<>(object, HttpStatus.BAD_REQUEST);
             	   
                }       	 
-        }else {
-        	  status.setCode("400");
- 		     status.setMessage("User not found");
- 		     object.setStatus(status);
- 		     object.setResult(null);
- 				return new ResponseEntity<>(object, HttpStatus.BAD_REQUEST);
-    
-        }         
+               
 		}catch(Exception e) {
 			 e.printStackTrace();
 		}

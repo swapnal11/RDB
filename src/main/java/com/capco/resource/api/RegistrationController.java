@@ -60,7 +60,7 @@ public class RegistrationController {
 	
 
 	
-	@GetMapping(value = "/retriveAll")
+	@GetMapping(value = "/retrieveAll")
 	 public ResponseEntity<List<UserInfo>> retrive() {
 		
 		response = registrationservice.retrive();
