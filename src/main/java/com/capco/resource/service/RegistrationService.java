@@ -4,18 +4,19 @@ import java.util.List;
 
 import org.springframework.http.ResponseEntity;
 
+import com.capco.resource.exceptions.CustomerException;
 import com.capco.resource.model.ResponseObject;
 import com.capco.resource.model.UserInfo;
 
 public interface RegistrationService {
 	
-	public  ResponseEntity<ResponseObject> hrRegister(UserInfo user);
+	public  ResponseEntity<ResponseObject> hrRegister(UserInfo user) throws CustomerException;
 
 	public  ResponseEntity<ResponseObject> userRegister(UserInfo user);
 
 	public ResponseEntity<ResponseObject> verify(UserInfo login);
 	 
-	 public ResponseEntity<List<UserInfo>> retrive();
+	 public ResponseEntity<ResponseObject> retrive();
 	 
 	 
 	 

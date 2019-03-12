@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.capco.resource.exceptions.CustomerException;
 import com.capco.resource.model.ResponseObject;
 import com.capco.resource.model.Skill;
 import com.capco.resource.model.UserInfo;
@@ -30,7 +31,7 @@ public class RegistrationController {
 	RegistrationService registrationservice;
 	
 	@PostMapping(value = "/hrRegister")
-	 public ResponseEntity<String> hrRegister(@RequestBody UserInfo user) {
+	 public ResponseEntity<String> hrRegister(@RequestBody UserInfo user) throws CustomerException {
 		
 		response = registrationservice.hrRegister(user);
 		return response;

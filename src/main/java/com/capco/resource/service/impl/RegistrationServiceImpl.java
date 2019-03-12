@@ -11,6 +11,8 @@ import org.springframework.http.ResponseEntity;
 
 import org.springframework.stereotype.Service;
 
+import com.capco.resource.exceptions.CustomerException;
+import com.capco.resource.model.FilterResult;
 import com.capco.resource.model.ResponseObject;
 import com.capco.resource.model.Result;
 import com.capco.resource.model.Skill;
@@ -19,6 +21,7 @@ import com.capco.resource.model.UserInfo;
 import com.capco.resource.repository.SkillRepo;
 import com.capco.resource.repository.UserRepo;
 import com.capco.resource.service.RegistrationService;
+import com.capco.resource.validations.RegistrationValidations;
 
 
 
@@ -33,17 +36,19 @@ public class RegistrationServiceImpl implements RegistrationService {
 	 ResponseObject object=new ResponseObject();
      Status status=new Status();
      Result result = new Result();
+     FilterResult filterResult= new FilterResult();
    
 
 	@Override
-	public ResponseEntity<ResponseObject> hrRegister(UserInfo userinfo) {
+	public ResponseEntity<ResponseObject> hrRegister(UserInfo userinfo) throws CustomerException {
 
 	 UserInfo saveuser = new UserInfo();
+		RegistrationValidations regValidations = new RegistrationValidations();
+	      
 	 try {
 	 UserInfo userById = userRepo.findByEmpId(userinfo.getEmpId());
 	 if(userById!=null) {
-		 
-		if(userById.getEmpId()==(userinfo.getEmpId())) {
+			if(userById.getEmpId()==(userinfo.getEmpId())) {
 			 status.setCode("400");
 		     status.setMessage("EmpId is already registered");
 		     object.setStatus(status);
@@ -87,7 +92,7 @@ public class RegistrationServiceImpl implements RegistrationService {
 		
 		try {
         UserInfo user = userRepo.findByEmpId(login.getEmpId());
-       // if(user.isFlag()) {
+         if(user.isFlag()==true) {
          if(user!=null && user.getEmpId()!=0) {
         	 if( user.getEmpId()==(login.getEmpId())) {
         		 
@@ -138,14 +143,14 @@ public class RegistrationServiceImpl implements RegistrationService {
         				return new ResponseEntity<>(object, HttpStatus.BAD_REQUEST);
             	   
                }       	 
-        /*}else {
+        }else {
         	  status.setCode("400");
  		     status.setMessage("User not found");
  		     object.setStatus(status);
  		     object.setResult(null);
  				return new ResponseEntity<>(object, HttpStatus.BAD_REQUEST);
     
-        }   */        
+        }         
 		}catch(Exception e) {
 			 e.printStackTrace();
 		}
@@ -156,34 +161,51 @@ public class RegistrationServiceImpl implements RegistrationService {
 
 
 	@Override
-	public ResponseEntity<List<UserInfo>> retrive() {
+	public ResponseEntity<ResponseObject> retrive() {
 		
-		List<UserInfo> userlist = new  ArrayList();
+		
+		
+		List<FilterResult> resultobj = new ArrayList<>();
 		try {
-		List<UserInfo> list = userRepo.findAll();
-		
-		for(UserInfo userdetails:list) {
-			UserInfo user= new UserInfo();
-			user.setEmpId(userdetails.getEmpId());
-			user.setEmployeeEmail(userdetails.getEmployeeEmail());
-			user.setEmployeeName(userdetails.getEmployeeName());
-			user.setStatus(userdetails.getStatus());
-			List<Skill> skills= new ArrayList<>();
-			 List<Skill> skilldetails = userdetails.getSkills();
-			 for(Skill skillinfo:skilldetails) {
-			Skill skilldata = new Skill();
-			skilldata.setSkillName(skillinfo.getSkillName());
-			skills.add(skilldata);
-			
-			}
-			 user.setSkills(skills);
-			userlist.add(user);
-		}
+			List<Object[]> resultList = userRepo.findAllUser();
+		if(resultList!=null) {
+				  for(Object[] resultobj1:resultList) {
+						if(resultobj1[0]==null && resultobj1[1]==null && resultobj1[2]==null && resultobj1[3]==null && resultobj1[4]==null ) {
+							 status.setCode("200");
+					     status.setMessage("No Data Found for Search Result");
+					     object.setStatus(status);
+					     object.setFilterResult(null);
+
+					}else {
+					  List<String> skillList= new ArrayList<>(); 
+					  FilterResult temp= new FilterResult();
+					  temp.setEmpId((int) resultobj1[0]);
+					  temp.setEmployeeName(resultobj1[1].toString());
+					  temp.setExperienceYears((int)resultobj1[2]);
+					  temp.setSkillName((String) resultobj1[3]);
+					  skillList.add((String) resultobj1[3]);
+					  temp.setStatus(resultobj1[4].toString());
+					  resultobj.add(temp);
+					  status.setCode("200");
+					     status.setMessage("Success");
+					     object.setStatus(status);
+					     object.setFilterlist((resultobj));
+
+				  }  
+				  }	
+						}else {
+							 status.setCode("200");
+						     status.setMessage("No Data Found for Search Result");
+						     object.setStatus(status);
+						     object.setFilterResult(null);
+
+						}
+						
 		}catch(Exception e) {
 			 e.printStackTrace();
 		}
 		
-		return ResponseEntity.status(HttpStatus.OK).body(userlist);
+		return new ResponseEntity<>(object, HttpStatus.OK);
 	}
 
 
