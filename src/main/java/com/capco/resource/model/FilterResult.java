@@ -10,13 +10,13 @@ public class FilterResult {
 	
 	private int empId;
 	
-	private String employeeName;
+	private String employeeName = null;
 	
-	private int experienceYears;
+	private int experienceYears = 0;
 	
-	private String skillName;
+	private String skillName = null;
 	
-	private String status;
+	private String status = null;
 	
 	
 

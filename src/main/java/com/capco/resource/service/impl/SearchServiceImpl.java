@@ -41,9 +41,8 @@ public class SearchServiceImpl implements SearchService{
 	@Autowired
 	UserRepo userRepo;
 	
-	 ResponseObject object=new ResponseObject();
      Status status=new Status();
-     Result result = new Result();
+     
      
    	@Autowired(required=true)
 	EntityManager entityManager;
@@ -54,6 +53,8 @@ public class SearchServiceImpl implements SearchService{
 
 	@Override
 	public ResponseEntity<ResponseObject> searchResult(FilterData result) {
+		Result filterResult = new Result();
+		 ResponseObject object=new ResponseObject();
 		List<FilterResult> resultobj = new ArrayList<>();
 		List<Object[]>	resultList;
 		List<FilterResult> resultdata = new ArrayList<>();
@@ -74,7 +75,11 @@ public class SearchServiceImpl implements SearchService{
 				  status.setCode("200");
 				     status.setMessage("Success");
 				     object.setStatus(status);
-				     object.setFilterlist((resultobj2));
+				     filterResult.setFilterlist(resultobj2);
+				      object.setResult(filterResult);
+				    
+				   //  object.setFilterlist((resultobj2));
+				     
 				}
 			
 			}
@@ -83,29 +88,27 @@ public class SearchServiceImpl implements SearchService{
 			int experience = result.getExperienceYears();
 			 List<String> statuslist = result.getStatus();
 			 List<String> namelist = result.getSkillName();	 
-			if(expdata.equals("More Than") ) {
+			if(expdata.equals("Equal To") ) {
 				if(statuslist.isEmpty() && namelist.isEmpty()) {
 					statuslist.add("");
 					namelist.add("");
 				
-				resultList=userRepo.findBySkillsSkillNameInOrExperienceYearsGreaterThanOrStatusIn(namelist,experience,statuslist);
+				resultList=userRepo.findBySkillsSkillNameInOrExperienceYearsOrStatusIn(namelist,experience,statuslist);
 					}
 				else if(namelist.isEmpty()) {
 					namelist.add("");
-					resultList=userRepo.findBySkillsSkillNameInOrExperienceYearsGreaterThanOrStatusIn(namelist,experience,statuslist);
+					resultList=userRepo.findBySkillsSkillNameInOrExperienceYearsOrStatusIn(namelist,experience,statuslist);
 					
 					}
 				else if(statuslist.isEmpty()) {
 					statuslist.add("");
-					resultList=userRepo.findBySkillsSkillNameInOrExperienceYearsGreaterThanOrStatusIn(namelist,experience,statuslist);
+					resultList=userRepo.findBySkillsSkillNameInOrExperienceYearsOrStatusIn(namelist,experience,statuslist);
 					
 					}
 				else {
-					resultList=userRepo.findBySkillsSkillNameInOrExperienceYearsGreaterThanOrStatusIn(namelist,experience,statuslist);
+					resultList=userRepo.findBySkillsSkillNameInOrExperienceYearsOrStatusIn(namelist,experience,statuslist);
 					
-				}
-
-				
+				}		
 				
 				}
 			else if(expdata.equals("Less Than")) {
@@ -135,32 +138,25 @@ public class SearchServiceImpl implements SearchService{
 					statuslist.add("");
 					namelist.add("");
 				
-					resultList=userRepo.findBySkillsSkillNameInOrExperienceYearsOrStatusIn(namelist,experience,statuslist);
+					resultList=userRepo.findBySkillsSkillNameInOrExperienceYearsGreaterThanOrStatusIn(namelist,experience,statuslist);
 							}
 				else if(namelist.isEmpty()) {
 					namelist.add("");
-					resultList=userRepo.findBySkillsSkillNameInOrExperienceYearsOrStatusIn(namelist,experience,statuslist);
+					resultList=userRepo.findBySkillsSkillNameInOrExperienceYearsGreaterThanOrStatusIn(namelist,experience,statuslist);
 					
 					}
 				else if(statuslist.isEmpty()) {
 					statuslist.add("");
-					resultList=userRepo.findBySkillsSkillNameInOrExperienceYearsOrStatusIn(namelist,experience,statuslist);
+					resultList=userRepo.findBySkillsSkillNameInOrExperienceYearsGreaterThanOrStatusIn(namelist,experience,statuslist);
 						
 					}
 				else {
-					resultList=userRepo.findBySkillsSkillNameInOrExperienceYearsOrStatusIn(namelist,experience,statuslist);
+					resultList=userRepo.findBySkillsSkillNameInOrExperienceYearsGreaterThanOrStatusIn(namelist,experience,statuslist);
 						
 				}
 				}
-			if(resultList!=null) {
+			if(!(resultList.isEmpty())) {
 	  for(Object[] resultobj1:resultList) {
-			if(resultobj1[0]==null && resultobj1[1]==null && resultobj1[2]==null && resultobj1[3]==null && resultobj1[4]==null ) {
-				 status.setCode("200");
-		     status.setMessage("No Data Found for Search Result");
-		     object.setStatus(status);
-		     object.setFilterResult(null);
-
-		}else {
 		  List<String> skillList= new ArrayList<>(); 
 		  FilterResult temp= new FilterResult();
 		  temp.setEmpId((int) resultobj1[0]);
@@ -172,15 +168,22 @@ public class SearchServiceImpl implements SearchService{
 		  status.setCode("200");
 		     status.setMessage("Success");
 		     object.setStatus(status);
-		     object.setFilterlist((resultobj));
+		     filterResult.setFilterlist(resultobj);
+		      object.setResult(filterResult);
+		    
+		    // object.setFilterlist((resultobj));
 
 	  }  
 	  }	
-			}else {
-				 status.setCode("200");
-			     status.setMessage("No Data Found for Search Result");
+			else {
+				 status.setCode("400");
+			     status.setMessage("No Data Found from Database for Search Criteria");
 			     object.setStatus(status);
-			     object.setFilterResult(null);
+			     filterResult.setFilterlist(null);
+			      object.setResult(filterResult);
+			   
+			   //  object.setFilterResult(null);
+			     return new ResponseEntity<>(object, HttpStatus.BAD_REQUEST);
 
 			}
 			}
@@ -192,34 +195,68 @@ public class SearchServiceImpl implements SearchService{
 	
 
 	}
+	
+	/*public void compare(FilterData result) {
+		String expdata=result.getExperience();
+		int experience = result.getExperienceYears();
+		 List<String> statuslist = result.getStatus();
+		 List<String> namelist = result.getSkillName();	 
+	
+		if(statuslist.isEmpty() && namelist.isEmpty()) {
+			statuslist.add("");
+			namelist.add("");
+		
+			}
+		else if(namelist.isEmpty()) {
+			namelist.add("");
+			
+			}
+		else if(statuslist.isEmpty()) {
+			statuslist.add("");
+			
+			}
+		else {
+			
+		}
+	}*/
 
 	@Override
 	public  ResponseEntity<ResponseObject> searchbyIdAndEmail(UserInfo userdata) {
+		Result filterResult = new Result();
+		 ResponseObject object=new ResponseObject();
 			 FilterResult result= new FilterResult();
+			 
 		try {
 				 
 			List<Object[]> temp = userRepo.findByEmpIdOrEmployeeEmail(userdata.getEmpId(), userdata.getEmployeeEmail());
-			
+			if(!(temp.isEmpty())) {
 			for(Object[] resultobj1:temp) {
-				if(resultobj1[0]==null && resultobj1[1]==null && resultobj1[2]==null && resultobj1[3]==null && resultobj1[4]==null ) {
-					 status.setCode("200");
-			     status.setMessage("No Data Found for Search Result");
-			     object.setStatus(status);
-			     object.setFilterResult(null);
-	 
-			}else {
-		    	
+					    	
 			    	  result.setEmpId((int) resultobj1[0]);
 			    	  result.setEmployeeName(resultobj1[1].toString());
-		    	  result.setStatus((String)resultobj1[2]);
+			    	  result.setStatus((String)resultobj1[2]);
 			    	  result.setExperienceYears((int)resultobj1[3]);
 			    	  result.setSkillName((String) resultobj1[4]);
 			    	  status.setCode("200");
 					     status.setMessage("Success");
 					     object.setStatus(status);
-					     object.setFilterResult(result);
+					     filterResult.setFilterResult(result);
+					      object.setResult(filterResult);
+					   
+					   //  object.setFilterResult(result);
 		
-		    	 }   }   
+		    	 }  
+			} else {
+		    		 status.setCode("400");
+				     status.setMessage("No Data Found for Search Result from Database");
+				     object.setStatus(status);
+				     filterResult.setFilterResult(null);
+				      object.setResult(filterResult);
+				   
+				    // object.setFilterResult(null);
+				     return new ResponseEntity<>(object, HttpStatus.BAD_REQUEST);
+		 
+		    	 }  
 			}catch(Exception e) {
 				 e.printStackTrace();
 			}
@@ -231,20 +268,21 @@ public class SearchServiceImpl implements SearchService{
 
 	@Override
 	public ResponseEntity<ResponseObject> searchbyId(int id) {
-		
+		Result filterResult = new Result();
+		 ResponseObject object=new ResponseObject();
 		try {
+			if(id!=0) {
 	        UserInfo user = userRepo.findByEmpId(id);
 	         if(user!=null && user.getEmpId()!=0) {
-	        	 if( user.getEmpId()==id) {
-	        		 
-	            	   result.setDesignation(user.getDesignation());
-	                   result.setEmpId(user.getEmpId());
-	                   result.setEmployeeEmail(user.getEmployeeEmail());
-	                   result.setStatus(user.getStatus());
-	                   result.setProjectManager(user.getProjectManager());
-	                   result.setEmployeeName(user.getEmployeeName());
-	                   result.setExperienceYears(user.getExperienceYears());
-	                   result.setExperienceMonths(user.getExperienceMonths());
+	        	        		 
+	        	 filterResult.setDesignation(user.getDesignation());
+	        	 filterResult.setEmpId(user.getEmpId());
+	        	 filterResult.setEmployeeEmail(user.getEmployeeEmail());
+	        	 filterResult.setStatus(user.getStatus());
+	        	 filterResult.setProjectManager(user.getProjectManager());
+	        	 filterResult.setEmployeeName(user.getEmployeeName());
+	        	 filterResult.setExperienceYears(user.getExperienceYears());
+	        	 filterResult.setExperienceMonths(user.getExperienceMonths());
 	                   List<Skill> skills= new ArrayList<>();
 	           		 List<Skill> skilldetails = user.getSkills();
 	           		 for(Skill skillinfo:skilldetails) {
@@ -255,24 +293,26 @@ public class SearchServiceImpl implements SearchService{
 	           		status.setCode("200");
 	                status.setMessage("Success");
 	                object.setStatus(status);
-	                object.setResult(result);
+	                object.setResult(filterResult);
 	           		}
-	                    result.setSkills(skills);
+	           		filterResult.setSkills(skills);
 	                    }
+		
 	            		   
-	            	   else {
-	            		   status.setCode("400");
-	            		     status.setMessage("EmpId is wrong");
-	            		     object.setStatus(status);
-	            			return new ResponseEntity<>(object, HttpStatus.BAD_REQUEST);
-	            	   }
-	               }else {
+	               else {
 	            	   status.setCode("400");
 	        		     status.setMessage("No data found for EmpID");
 	        		     object.setStatus(status);
 	        				return new ResponseEntity<>(object, HttpStatus.BAD_REQUEST);
 	            	   
-	               }       	 
+	               }   
+			}else {
+				  status.setCode("400");
+     		     status.setMessage("EmpId is null");
+     		     object.setStatus(status);
+     				return new ResponseEntity<>(object, HttpStatus.BAD_REQUEST);
+         
+			}
 			              
 			}catch(Exception e) {
 				 e.printStackTrace(); 
@@ -286,8 +326,11 @@ public class SearchServiceImpl implements SearchService{
 
 	@Override
 	public ResponseEntity<ResponseObject> deleteUserbyId(UserInfo userinfo) {
+		Result filterResult = new Result();
+		 ResponseObject object=new ResponseObject();
 		 UserInfo saveuser = new UserInfo();
 		 try {
+			 if(userinfo.getEmpId()!=0) {
 		 UserInfo userById = userRepo.findByEmpId(userinfo.getEmpId());
 		
 			 if( userById!=null && userById.getEmpId()!=0 ) {
@@ -300,11 +343,19 @@ public class SearchServiceImpl implements SearchService{
 				}
 		 else {
 			 status.setCode("400");
-		     status.setMessage("Error in deleting or empid may be wrong");
+		     status.setMessage("Error in deleting , empid may be wrong");
 		     object.setStatus(status);
 			return new ResponseEntity<>(object, HttpStatus.BAD_REQUEST);
 		 }
 		}
+		 else {
+			 status.setCode("400");
+		     status.setMessage("EmpId is null");
+		     object.setStatus(status);
+			return new ResponseEntity<>(object, HttpStatus.BAD_REQUEST);
+	 
+		 }
+		 }
 		 catch(Exception e){
 			 
 			 e.printStackTrace();

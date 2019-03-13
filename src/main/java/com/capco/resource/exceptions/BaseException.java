@@ -1,5 +1,7 @@
 package com.capco.resource.exceptions;
 
+import org.springframework.http.HttpStatus;
+
 /**
  * This is a base exception class
  * 
@@ -12,6 +14,9 @@ public class BaseException extends Exception {
 	
 	private final String message;
 
+	private static final HttpStatus httpStatus = HttpStatus.BAD_REQUEST;
+
+	
 	public BaseException(String message) {
 		super();
 		
@@ -22,5 +27,9 @@ public class BaseException extends Exception {
 	@Override
 	public String getMessage() {
 		return message;
+	}
+	
+	public HttpStatus getHttpStatus() {
+		return httpStatus;
 	}
 }

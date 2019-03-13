@@ -15,18 +15,18 @@ public class ResponseObject {
     private Status status;
     private Result result;
     
-    private FilterResult filterResult;
+   /* private FilterResult filterResult;
     
-    private List<FilterResult> filterlist;
+    private List<FilterResult> filterlist = null;
+   */ 
     
     
-    
-	public List<FilterResult> getFilterlist() {
+	/*public List<FilterResult> getFilterlist() {
 		return filterlist;
 	}
 	public void setFilterlist(List<FilterResult> filterlist) {
 		this.filterlist = filterlist;
-	}
+	}*/
 	public Status getStatus() {
 		return status;
 	}
@@ -39,12 +39,12 @@ public class ResponseObject {
 	public void setResult(Result result) {
 		this.result = result;
 	}
-	public FilterResult getFilterResult() {
+	/*public FilterResult getFilterResult() {
 		return filterResult;
 	}
 	public void setFilterResult(FilterResult filterResult) {
 		this.filterResult = filterResult;
-	}
+	}*/
 	
 	
 }

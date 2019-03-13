@@ -13,7 +13,7 @@ import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
-@JsonInclude(Include.NON_NULL)
+@JsonInclude(Include.NON_DEFAULT)
 
 public class Result implements Serializable{
 /**
@@ -38,8 +38,33 @@ public class Result implements Serializable{
 	
 	
 	private int experienceMonths;
+	
+	 private FilterResult filterResult;
+	    
+	    private List<FilterResult> filterlist = null;
+	   
 
 	
+	public FilterResult getFilterResult() {
+			return filterResult;
+		}
+
+
+		public void setFilterResult(FilterResult filterResult) {
+			this.filterResult = filterResult;
+		}
+
+
+		public List<FilterResult> getFilterlist() {
+			return filterlist;
+		}
+
+
+		public void setFilterlist(List<FilterResult> filterlist) {
+			this.filterlist = filterlist;
+		}
+
+
 	@OneToMany(
             cascade = {CascadeType.PERSIST, CascadeType.MERGE},
             orphanRemoval = false,

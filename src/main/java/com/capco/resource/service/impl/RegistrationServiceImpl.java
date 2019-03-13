@@ -33,15 +33,27 @@ public class RegistrationServiceImpl implements RegistrationService {
 	
 	@Autowired
 	SkillRepo skillRepo;
-	 ResponseObject object=new ResponseObject();
+	
      Status status=new Status();
-     Result result = new Result();
-     FilterResult filterResult= new FilterResult();
+
+    // FilterResult filterResult= new FilterResult();
    
 
 	@Override
-	public ResponseEntity<ResponseObject> hrRegister(UserInfo userinfo) throws CustomerException {
-
+	public ResponseEntity<ResponseObject> hrRegister(UserInfo userinfo) throws CustomerException ,Exception{
+		
+		RegistrationValidations.lengthValidationForName(userinfo.getDesignation());
+		RegistrationValidations.lengthValidationForName(userinfo.getEmployeeName());
+		RegistrationValidations.lengthValidationForName(userinfo.getProjectManager());
+		RegistrationValidations.lengthValidationForName(userinfo.getStatus());
+		RegistrationValidations.isEmailValid(userinfo.getEmployeeEmail());
+		RegistrationValidations.lengthValidationForNumber(userinfo.getEmpId());
+		
+		
+		
+		
+	     Result result = new Result();
+		 ResponseObject object=new ResponseObject();
 	 UserInfo saveuser = new UserInfo();
 		RegistrationValidations regValidations = new RegistrationValidations();
 	      
@@ -89,6 +101,8 @@ public class RegistrationServiceImpl implements RegistrationService {
 	
 	
 	public ResponseEntity<ResponseObject> verify(UserInfo login) {
+	     Result result = new Result();
+		 ResponseObject object=new ResponseObject();
 		
 		try {
         UserInfo user = userRepo.findByEmpId(login.getEmpId());
@@ -166,7 +180,8 @@ public class RegistrationServiceImpl implements RegistrationService {
 
 	@Override
 	public ResponseEntity<ResponseObject> retrive() {
-		
+	     Result result = new Result();
+		 ResponseObject object=new ResponseObject();
 		
 		
 		List<FilterResult> resultobj = new ArrayList<>();
@@ -178,7 +193,9 @@ public class RegistrationServiceImpl implements RegistrationService {
 							 status.setCode("200");
 					     status.setMessage("No Data Found for Search Result");
 					     object.setStatus(status);
-					     object.setFilterResult(null);
+					     result.setFilterResult(null);
+					      object.setResult(result);
+					      
 
 					}else {
 					  List<String> skillList= new ArrayList<>(); 
@@ -193,7 +210,10 @@ public class RegistrationServiceImpl implements RegistrationService {
 					  status.setCode("200");
 					     status.setMessage("Success");
 					     object.setStatus(status);
-					     object.setFilterlist((resultobj));
+					     result.setFilterlist(resultobj);
+					      object.setResult(result);
+					     
+					    // object.setFilterlist((resultobj));
 
 				  }  
 				  }	
@@ -201,7 +221,10 @@ public class RegistrationServiceImpl implements RegistrationService {
 							 status.setCode("200");
 						     status.setMessage("No Data Found for Search Result");
 						     object.setStatus(status);
-						     object.setFilterResult(null);
+						     result.setFilterResult(null);
+						      object.setResult(result);
+						    
+						//     object.setFilterResult(null);
 
 						}
 						
@@ -214,7 +237,19 @@ public class RegistrationServiceImpl implements RegistrationService {
 
 
 	@Override
-	public ResponseEntity<ResponseObject> userRegister(UserInfo user) {
+	public ResponseEntity<ResponseObject> userRegister(UserInfo user) throws CustomerException,Exception {
+		
+		RegistrationValidations.lengthValidationForName(user.getEmployeeName());
+		RegistrationValidations.lengthValidationForNumber(user.getExperienceMonths());
+		RegistrationValidations.lengthValidationForNumber(user.getExperienceYears());
+		for(Skill userskill:user.getSkills()) {
+			RegistrationValidations.lengthValidationForName(userskill.getSkillName());
+			RegistrationValidations.lengthValidationForNumber(userskill.getSkillExperience());
+			
+			
+		}
+		
+		 ResponseObject object=new ResponseObject();
 			 UserInfo userById = userRepo.findByEmpId(user.getEmpId());	
 			 try {
 			 if(userById!=null) {	 

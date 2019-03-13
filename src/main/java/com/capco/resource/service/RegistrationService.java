@@ -10,9 +10,9 @@ import com.capco.resource.model.UserInfo;
 
 public interface RegistrationService {
 	
-	public  ResponseEntity<ResponseObject> hrRegister(UserInfo user) throws CustomerException;
+	public  ResponseEntity<ResponseObject> hrRegister(UserInfo user) throws CustomerException, Exception;
 
-	public  ResponseEntity<ResponseObject> userRegister(UserInfo user);
+	public  ResponseEntity<ResponseObject> userRegister(UserInfo user) throws CustomerException, Exception;
 
 	public ResponseEntity<ResponseObject> verify(UserInfo login);
 	 

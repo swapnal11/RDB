@@ -37,19 +37,18 @@ ResponseEntity response;
     public ResponseEntity<ResponseObject> searchResult(@RequestBody FilterData result ) {
            
 		 
-				response = serachservice.searchResult(result);
-		return response;
+				
+		return serachservice.searchResult(result);
            
          
            
            }
 	
 	@PostMapping(value = "/searchUser")
-    public  ResponseEntity<ResponseObject> searchbyId(@RequestBody UserInfo user ) {
+    public  ResponseEntity<ResponseObject> searchbyIdAndEmail(@RequestBody UserInfo user ) {
            
-		response = serachservice.searchbyIdAndEmail(user);
-		
-		return response;
+			
+		return serachservice.searchbyIdAndEmail(user);
            
          
            
@@ -58,9 +57,8 @@ ResponseEntity response;
 	@GetMapping(value = "/searchUser/{id}")
     public  ResponseEntity<ResponseObject> searchbyId(@PathVariable int id ) {
            
-		response = serachservice.searchbyId(id);
-		
-		return response;
+			
+		return serachservice.searchbyId(id);
            
          
            
@@ -69,9 +67,8 @@ ResponseEntity response;
 	@PostMapping(value = "/deleteUserById")
     public  ResponseEntity<ResponseObject> deleteUserbyId(@RequestBody UserInfo user ) {
            
-		response = serachservice.deleteUserbyId(user);
-		
-		return response;
+	
+		return serachservice.deleteUserbyId(user);
            
          
            

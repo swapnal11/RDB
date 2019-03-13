@@ -31,7 +31,7 @@ public class RegistrationController {
 	RegistrationService registrationservice;
 	
 	@PostMapping(value = "/hrRegister")
-	 public ResponseEntity<String> hrRegister(@RequestBody UserInfo user) throws CustomerException {
+	 public ResponseEntity<String> hrRegister(@RequestBody UserInfo user) throws Exception {
 		
 		response = registrationservice.hrRegister(user);
 		return response;
@@ -40,7 +40,7 @@ public class RegistrationController {
 		}
 	
 	@PostMapping(value = "/userRegister")
-	 public ResponseEntity<String> userRegister(@RequestBody UserInfo user) {
+	 public ResponseEntity<String> userRegister(@RequestBody UserInfo user) throws CustomerException, Exception {
 		response = registrationservice.userRegister(user);
 		return response;
 		
