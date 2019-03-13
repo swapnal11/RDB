@@ -12,23 +12,20 @@ public class BaseException extends Exception {
 
 	private static final long serialVersionUID = 1L;
 	
-	private final String message;
+	private final int code;
 
 	private static final HttpStatus httpStatus = HttpStatus.BAD_REQUEST;
 
 	
-	public BaseException(String message) {
+	public BaseException(int code) {
 		super();
-		
-		this.message = message;
+		this.code = code;
+	
 	}
 
-	
-	@Override
-	public String getMessage() {
-		return message;
+	public int getCode() {
+		return code;
 	}
-	
 	public HttpStatus getHttpStatus() {
 		return httpStatus;
 	}

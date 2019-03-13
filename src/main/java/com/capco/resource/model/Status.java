@@ -7,9 +7,9 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 public class Status {
 
 	private static final long serialVersionUID = 1L;
-	private String code;
+	private int code;
 	private String message;
-	
+	//private int code1;
 
 	
 
@@ -19,14 +19,20 @@ public class Status {
 	}
 
 
-	public String getCode() {
+	
+
+	public int getCode() {
 		return code;
 	}
 
 
-	public void setCode(String code) {
+
+
+	public void setCode(int code) {
 		this.code = code;
 	}
+
+
 
 
 	public String getMessage() {
@@ -42,6 +48,10 @@ public class Status {
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
+
+
+	
+
 
 	
 

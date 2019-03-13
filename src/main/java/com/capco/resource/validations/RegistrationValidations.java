@@ -26,14 +26,14 @@ public class RegistrationValidations {
 public static void lengthValidationForName(String name) throws CustomerException {
 		
 		if(name.length()>50 || name.isEmpty() )
-			throw new CustomerException("Please Enter Correctly");
+			throw new CustomerException(5001);
 		
 	}
 
 public static void lengthValidationForNumber(int number) throws CustomerException {
 	
 	if( number==0 )
-		throw new CustomerException("Please Enter Correctly");
+		throw new CustomerException(5001);
 	
 }
 	
@@ -50,12 +50,12 @@ public static void lengthValidationForNumber(int number) throws CustomerExceptio
 	                              
 	        Pattern pat = Pattern.compile(emailRegex); 
 	        if (!(pat.matcher(email).matches()) || email == null) 
-	        	throw new CustomerException("Please Enter Capco Email Correctly");
+	        	throw new CustomerException(5002);
 	    } 
 	 
 	 public static void isValidPassword(String password)throws CustomerException{
 		 if(!(password.matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$") || password == null))
-			 throw new CustomerException("Please Enter Correctly");
+			 throw new CustomerException(5003);
 		
 	 }
 	 

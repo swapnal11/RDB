@@ -72,7 +72,7 @@ public class SearchServiceImpl implements SearchService{
 				  skillList.add((String) resultobj1[3]);
 				  temp.setStatus(resultobj1[4].toString());
 				  resultobj2.add(temp);
-				  status.setCode("200");
+				  status.setCode(200);
 				     status.setMessage("Success");
 				     object.setStatus(status);
 				     filterResult.setFilterlist(resultobj2);
@@ -165,18 +165,16 @@ public class SearchServiceImpl implements SearchService{
 		  temp.setSkillName((String) resultobj1[3]);
 		  skillList.add((String) resultobj1[3]);
 		  resultobj.add(temp);
-		  status.setCode("200");
+			  status.setCode(200);
 		     status.setMessage("Success");
 		     object.setStatus(status);
 		     filterResult.setFilterlist(resultobj);
 		      object.setResult(filterResult);
-		    
-		    // object.setFilterlist((resultobj));
-
+		
 	  }  
 	  }	
 			else {
-				 status.setCode("400");
+				 status.setCode(400);
 			     status.setMessage("No Data Found from Database for Search Criteria");
 			     object.setStatus(status);
 			     filterResult.setFilterlist(null);
@@ -237,7 +235,7 @@ public class SearchServiceImpl implements SearchService{
 			    	  result.setStatus((String)resultobj1[2]);
 			    	  result.setExperienceYears((int)resultobj1[3]);
 			    	  result.setSkillName((String) resultobj1[4]);
-			    	  status.setCode("200");
+			    	  status.setCode(200);
 					     status.setMessage("Success");
 					     object.setStatus(status);
 					     filterResult.setFilterResult(result);
@@ -247,7 +245,7 @@ public class SearchServiceImpl implements SearchService{
 		
 		    	 }  
 			} else {
-		    		 status.setCode("400");
+		    		 status.setCode(400);
 				     status.setMessage("No Data Found for Search Result from Database");
 				     object.setStatus(status);
 				     filterResult.setFilterResult(null);
@@ -290,7 +288,7 @@ public class SearchServiceImpl implements SearchService{
 	           		skilldata.setSkillName(skillinfo.getSkillName());
 	           		skilldata.setSkillExperience(skillinfo.getSkillExperience());
 	           		skills.add(skilldata);
-	           		status.setCode("200");
+	           		status.setCode(200);
 	                status.setMessage("Success");
 	                object.setStatus(status);
 	                object.setResult(filterResult);
@@ -300,14 +298,14 @@ public class SearchServiceImpl implements SearchService{
 		
 	            		   
 	               else {
-	            	   status.setCode("400");
+	            	   status.setCode(400);
 	        		     status.setMessage("No data found for EmpID");
 	        		     object.setStatus(status);
 	        				return new ResponseEntity<>(object, HttpStatus.BAD_REQUEST);
 	            	   
 	               }   
 			}else {
-				  status.setCode("400");
+				  status.setCode(400);
      		     status.setMessage("EmpId is null");
      		     object.setStatus(status);
      				return new ResponseEntity<>(object, HttpStatus.BAD_REQUEST);
@@ -336,20 +334,20 @@ public class SearchServiceImpl implements SearchService{
 			 if( userById!=null && userById.getEmpId()!=0 ) {
 				 userById.setFlag(false);
 				userRepo.save(userById);
-				 status.setCode("200");
+				 status.setCode(200);
 			     status.setMessage("Success");
 			     object.setStatus(status);
 				
 				}
 		 else {
-			 status.setCode("400");
+			 status.setCode(400);
 		     status.setMessage("Error in deleting , empid may be wrong");
 		     object.setStatus(status);
 			return new ResponseEntity<>(object, HttpStatus.BAD_REQUEST);
 		 }
 		}
 		 else {
-			 status.setCode("400");
+			 status.setCode(400);
 		     status.setMessage("EmpId is null");
 		     object.setStatus(status);
 			return new ResponseEntity<>(object, HttpStatus.BAD_REQUEST);

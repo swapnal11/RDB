@@ -61,7 +61,7 @@ public class RegistrationServiceImpl implements RegistrationService {
 	 UserInfo userById = userRepo.findByEmpId(userinfo.getEmpId());
 	 if(userById!=null) {
 			if(userById.getEmpId()==(userinfo.getEmpId())) {
-			 status.setCode("400");
+			 status.setCode(400);
 		     status.setMessage("EmpId is already registered");
 		     object.setStatus(status);
 		   
@@ -78,13 +78,13 @@ public class RegistrationServiceImpl implements RegistrationService {
 			saveuser.setProjectManager(userinfo.getProjectManager());
 			saveuser.setEmployeeName(userinfo.getEmployeeName());
 			userRepo.save(saveuser);
-			 status.setCode("200");
+			 status.setCode(200);
 		     status.setMessage("Success");
 		     object.setStatus(status);
 			
 			}
 	 else {
-		 status.setCode("400");
+		 status.setCode(400);
 	     status.setMessage("Please Enter the details");
 	     object.setStatus(status);
 	  
@@ -129,14 +129,14 @@ public class RegistrationServiceImpl implements RegistrationService {
            		skilldata.setSkillName(skillinfo.getSkillName());
            		skilldata.setSkillExperience(skillinfo.getSkillExperience());
            		skills.add(skilldata);
-           		status.setCode("200");
+           		status.setCode(200);
                 status.setMessage("Success");
                 object.setStatus(status);
                 object.setResult(result);
            		}
                     result.setSkills(skills);
             	  }else {
-                	  status.setCode("400");
+                	  status.setCode(400);
           		     status.setMessage("User not found");
           		     object.setStatus(status);
           		     object.setResult(null);
@@ -144,7 +144,7 @@ public class RegistrationServiceImpl implements RegistrationService {
              
                  }  
                     }else {
-                    	  status.setCode("400");
+                    	  status.setCode(400);
              		     status.setMessage("Password is wrong");
              		     object.setStatus(status);
              		     object.setResult(null);
@@ -154,14 +154,14 @@ public class RegistrationServiceImpl implements RegistrationService {
                     }
             		   
             	   }else {
-            		   status.setCode("400");
+            		   status.setCode(400);
             		     status.setMessage("EmpId is wrong");
             		     object.setStatus(status);
             		     object.setResult(null);
             			return new ResponseEntity<>(object, HttpStatus.BAD_REQUEST);
             	   }
                }else {
-            	   status.setCode("400");
+            	   status.setCode(400);
         		     status.setMessage("EmpId is wrong");
         		     object.setStatus(status);
         		     object.setResult(null);
@@ -190,7 +190,7 @@ public class RegistrationServiceImpl implements RegistrationService {
 		if(resultList!=null) {
 				  for(Object[] resultobj1:resultList) {
 						if(resultobj1[0]==null && resultobj1[1]==null && resultobj1[2]==null && resultobj1[3]==null && resultobj1[4]==null ) {
-							 status.setCode("200");
+							 status.setCode(200);
 					     status.setMessage("No Data Found for Search Result");
 					     object.setStatus(status);
 					     result.setFilterResult(null);
@@ -207,7 +207,7 @@ public class RegistrationServiceImpl implements RegistrationService {
 					  skillList.add((String) resultobj1[3]);
 					  temp.setStatus(resultobj1[4].toString());
 					  resultobj.add(temp);
-					  status.setCode("200");
+					  status.setCode(200);
 					     status.setMessage("Success");
 					     object.setStatus(status);
 					     result.setFilterlist(resultobj);
@@ -218,7 +218,7 @@ public class RegistrationServiceImpl implements RegistrationService {
 				  }  
 				  }	
 						}else {
-							 status.setCode("200");
+							 status.setCode(200);
 						     status.setMessage("No Data Found for Search Result");
 						     object.setStatus(status);
 						     result.setFilterResult(null);
@@ -257,7 +257,7 @@ public class RegistrationServiceImpl implements RegistrationService {
 				if(userById.getEmployeeEmail().equals(user.getEmployeeEmail())) {
 					
 					if(user.getPassword().equals("")) {
-						status.setCode("400");
+						status.setCode(400);
 					     status.setMessage("Password not set");
 					     object.setStatus(status);
 					     object.setResult(null);
@@ -265,7 +265,7 @@ public class RegistrationServiceImpl implements RegistrationService {
 				
 					}
 					if(userById.getPassword()!=null  ) {
-						status.setCode("400");
+						status.setCode(400);
 					     status.setMessage("Account already exist");
 					     object.setStatus(status);
 					     object.setResult(null);
@@ -290,12 +290,12 @@ public class RegistrationServiceImpl implements RegistrationService {
 							}
 							skillRepo.saveAll(skills);				
 							userRepo.save(userById);
-							 status.setCode("200");
+							 status.setCode(200);
 						     status.setMessage("Success");
 						     object.setStatus(status);
 						}
 						else {
-							 status.setCode("400");
+							 status.setCode(400);
 						     status.setMessage("Please Enter the details");
 						     object.setStatus(status);
 						     
@@ -306,7 +306,7 @@ public class RegistrationServiceImpl implements RegistrationService {
 						
 					
 				}else {
-					 status.setCode("400");
+					 status.setCode(400);
 				     status.setMessage("Email ID may be wrong");
 				     object.setStatus(status);
 						return new ResponseEntity<>(object, HttpStatus.BAD_REQUEST);
@@ -314,7 +314,7 @@ public class RegistrationServiceImpl implements RegistrationService {
 		 			
 				}
 			 else {
-				 status.setCode("400");
+				 status.setCode(400);
 			     status.setMessage("Emp ID may be wrong");
 			     object.setStatus(status);
 			     
@@ -322,7 +322,7 @@ public class RegistrationServiceImpl implements RegistrationService {
 			 
 			 }
 			 }else {
-				 status.setCode("400");
+				 status.setCode(400);
 			     status.setMessage("Emp ID not registered");
 			     object.setStatus(status);
 			    
