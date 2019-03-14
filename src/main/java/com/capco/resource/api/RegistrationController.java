@@ -48,6 +48,16 @@ public class RegistrationController {
 		
 		}
 	
+	@PutMapping(value = "/updateUser")
+	 public ResponseEntity<String> updateUser(@RequestBody UserInfo user) throws CustomerException, Exception {
+		response = registrationservice.updateUser(user);
+		return response;
+		
+		
+		
+		}
+	
+	
 	@PostMapping(value = "/login")
     public ResponseEntity<ResponseObject> verify(@RequestBody UserInfo login) {
            

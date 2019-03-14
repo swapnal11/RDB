@@ -36,9 +36,6 @@ public class RegistrationServiceImpl implements RegistrationService {
 	
      Status status=new Status();
 
-    // FilterResult filterResult= new FilterResult();
-   
-
 	@Override
 	public ResponseEntity<ResponseObject> hrRegister(UserInfo userinfo) throws CustomerException ,Exception{
 		
@@ -137,7 +134,7 @@ public class RegistrationServiceImpl implements RegistrationService {
                     result.setSkills(skills);
             	  }else {
                 	  status.setCode(400);
-          		     status.setMessage("User not found");
+          		     status.setMessage("This user has been removed");
           		     object.setStatus(status);
           		     object.setResult(null);
           				return new ResponseEntity<>(object, HttpStatus.BAD_REQUEST);
@@ -212,9 +209,7 @@ public class RegistrationServiceImpl implements RegistrationService {
 					     object.setStatus(status);
 					     result.setFilterlist(resultobj);
 					      object.setResult(result);
-					     
-					    // object.setFilterlist((resultobj));
-
+					
 				  }  
 				  }	
 						}else {
@@ -223,9 +218,7 @@ public class RegistrationServiceImpl implements RegistrationService {
 						     object.setStatus(status);
 						     result.setFilterResult(null);
 						      object.setResult(result);
-						    
-						//     object.setFilterResult(null);
-
+						
 						}
 						
 		}catch(Exception e) {
@@ -244,9 +237,7 @@ public class RegistrationServiceImpl implements RegistrationService {
 		RegistrationValidations.lengthValidationForNumber(user.getExperienceYears());
 		for(Skill userskill:user.getSkills()) {
 			RegistrationValidations.lengthValidationForName(userskill.getSkillName());
-			RegistrationValidations.lengthValidationForNumber(userskill.getSkillExperience());
-			
-			
+			RegistrationValidations.lengthValidationForNumber(userskill.getSkillExperience());		
 		}
 		
 		 ResponseObject object=new ResponseObject();
@@ -338,6 +329,83 @@ public class RegistrationServiceImpl implements RegistrationService {
 		 return new ResponseEntity<>(object, HttpStatus.OK);
 			    
 				
+	}
+
+
+	@Override
+	public ResponseEntity<ResponseObject> updateUser(UserInfo user) throws CustomerException, Exception {
+		RegistrationValidations.lengthValidationForName(user.getEmployeeName());
+		RegistrationValidations.lengthValidationForNumber(user.getExperienceMonths());
+		RegistrationValidations.lengthValidationForNumber(user.getExperienceYears());
+		for(Skill userskill:user.getSkills()) {
+			RegistrationValidations.lengthValidationForName(userskill.getSkillName());
+			RegistrationValidations.lengthValidationForNumber(userskill.getSkillExperience());		
+		}
+		
+		 ResponseObject object=new ResponseObject();
+			 UserInfo userById = userRepo.findByEmpId(user.getEmpId());	
+			 try {
+			 if(userById!=null) {	 
+			if(userById.getEmpId()==(user.getEmpId())) {			
+				if(userById.getEmployeeEmail().equals(user.getEmployeeEmail())) {
+						
+							userById.setEmployeeName(user.getEmployeeName());
+							userById.setExperienceMonths(user.getExperienceMonths());
+							userById.setExperienceYears(user.getExperienceYears());
+							userById.setDesignation(user.getDesignation());
+							userById.setStatus(user.getStatus());
+							
+							List<Skill> skills = new ArrayList<>();
+							List<Skill> skilldata = user.getSkills();
+							for(Skill userskill:skilldata) {
+								Skill skill = new Skill();
+								
+							//	  skill = (Skill) userRepo.updadteSkill(userskill.getSkillName(),userskill.getSkillExperience(),userskill.getId());
+							/*	skill.setUserInfo(userById);
+								skill.setSkillExperience(skilldb[1]);
+								skill.setSkillName(skilldb[0]);
+								skills.add(skill);*/
+							}
+							//userById.setSkills(skills);
+						//	skillRepo.saveAll(skills);				
+							userRepo.save(userById);
+							 status.setCode(200);
+						     status.setMessage("Success");
+						     object.setStatus(status);
+						}
+			
+				else {
+					 status.setCode(400);
+				     status.setMessage("Email ID may be wrong");
+				     object.setStatus(status);
+						return new ResponseEntity<>(object, HttpStatus.BAD_REQUEST);
+				}
+		 			
+				}
+			 else {
+				 status.setCode(400);
+			     status.setMessage("Emp ID may be wrong");
+			     object.setStatus(status);
+			     
+					return new ResponseEntity<>(object, HttpStatus.BAD_REQUEST);
+			 
+			 }
+			 }else {
+				 status.setCode(400);
+			     status.setMessage("Emp ID not registered");
+			     object.setStatus(status);
+			    
+					return new ResponseEntity<>(object, HttpStatus.BAD_REQUEST);
+		
+			 }
+			 }
+			 catch(Exception e) {
+				 e.printStackTrace();
+			 }
+		
+	    
+		 return new ResponseEntity<>(object, HttpStatus.OK);
+			
 	}		
 }
 

@@ -17,6 +17,8 @@ public interface RegistrationService {
 	public ResponseEntity<ResponseObject> verify(UserInfo login);
 	 
 	 public ResponseEntity<ResponseObject> retrive();
+
+	public  ResponseEntity<ResponseObject> updateUser(UserInfo user) throws CustomerException, Exception;;
 	 
 	 
 	 

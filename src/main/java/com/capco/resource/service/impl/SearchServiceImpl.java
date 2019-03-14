@@ -93,16 +93,16 @@ public class SearchServiceImpl implements SearchService{
 					statuslist.add("");
 					namelist.add("");
 				
-				resultList=userRepo.findBySkillsSkillNameInOrExperienceYearsOrStatusIn(namelist,experience,statuslist);
+				resultList=userRepo.findByExperienceYearsEqualTo(experience);
 					}
 				else if(namelist.isEmpty()) {
 					namelist.add("");
-					resultList=userRepo.findBySkillsSkillNameInOrExperienceYearsOrStatusIn(namelist,experience,statuslist);
+					resultList=userRepo.findByExperienceYearsAndStatusIn(experience,statuslist);
 					
 					}
 				else if(statuslist.isEmpty()) {
 					statuslist.add("");
-					resultList=userRepo.findBySkillsSkillNameInOrExperienceYearsOrStatusIn(namelist,experience,statuslist);
+					resultList=userRepo.findBySkillsSkillNameInAndExperienceYears(namelist,experience);
 					
 					}
 				else {
@@ -116,16 +116,16 @@ public class SearchServiceImpl implements SearchService{
 					statuslist.add("");
 					namelist.add("");
 				
-					resultList=userRepo.findBySkillsSkillNameInOrExperienceYearsLessThanOrStatusIn(namelist,experience,statuslist);
+					resultList=userRepo.findByExperienceYearsLessThan(experience);
 						}
 				else if(namelist.isEmpty()) {
 					namelist.add("");
-					resultList=userRepo.findBySkillsSkillNameInOrExperienceYearsLessThanOrStatusIn(namelist,experience,statuslist);
+					resultList=userRepo.findByExperienceYearsLessThanAndStatusIn(experience,statuslist);
 					
 					}
 				else if(statuslist.isEmpty()) {
 					statuslist.add("");
-					resultList=userRepo.findBySkillsSkillNameInOrExperienceYearsLessThanOrStatusIn(namelist,experience,statuslist);
+					resultList=userRepo.findBySkillsSkillNameInAndExperienceYearsLessThan(namelist,experience);
 					
 					}
 				else {
@@ -138,16 +138,16 @@ public class SearchServiceImpl implements SearchService{
 					statuslist.add("");
 					namelist.add("");
 				
-					resultList=userRepo.findBySkillsSkillNameInOrExperienceYearsGreaterThanOrStatusIn(namelist,experience,statuslist);
+					resultList=userRepo.findByExperienceYearsGreaterThan(experience);
 							}
 				else if(namelist.isEmpty()) {
 					namelist.add("");
-					resultList=userRepo.findBySkillsSkillNameInOrExperienceYearsGreaterThanOrStatusIn(namelist,experience,statuslist);
+					resultList=userRepo.findByExperienceYearsGreaterThanAndStatusIn(experience,statuslist);
 					
 					}
 				else if(statuslist.isEmpty()) {
 					statuslist.add("");
-					resultList=userRepo.findBySkillsSkillNameInOrExperienceYearsGreaterThanOrStatusIn(namelist,experience,statuslist);
+					resultList=userRepo.findBySkillsSkillNameInAndExperienceYearsGreaterThan(namelist,experience);
 						
 					}
 				else {

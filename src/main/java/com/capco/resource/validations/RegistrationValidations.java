@@ -25,7 +25,7 @@ public class RegistrationValidations {
 	
 public static void lengthValidationForName(String name) throws CustomerException {
 		
-		if(name.length()>50 || name.isEmpty() )
+		if( name.isEmpty() )
 			throw new CustomerException(5001);
 		
 	}
