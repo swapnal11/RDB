@@ -69,6 +69,7 @@ public class SearchServiceImpl implements SearchService{
 				  temp.setEmployeeName(resultobj1[1].toString());
 				  temp.setExperienceYears((int)resultobj1[2]);
 				  temp.setSkillName((String) resultobj1[3]);
+				  temp.setStatus((String)resultobj1[4]);
 				  skillList.add((String) resultobj1[3]);
 				  temp.setStatus(resultobj1[4].toString());
 				  resultobj2.add(temp);
@@ -163,6 +164,7 @@ public class SearchServiceImpl implements SearchService{
 		  temp.setEmployeeName(resultobj1[1].toString());
 		  temp.setExperienceYears((int)resultobj1[2]);
 		  temp.setSkillName((String) resultobj1[3]);
+		  temp.setStatus((String)resultobj1[4]);
 		  skillList.add((String) resultobj1[3]);
 		  resultobj.add(temp);
 			  status.setCode(200);
@@ -194,40 +196,40 @@ public class SearchServiceImpl implements SearchService{
 
 	}
 	
-	/*public void compare(FilterData result) {
-		String expdata=result.getExperience();
-		int experience = result.getExperienceYears();
-		 List<String> statuslist = result.getStatus();
-		 List<String> namelist = result.getSkillName();	 
 	
-		if(statuslist.isEmpty() && namelist.isEmpty()) {
-			statuslist.add("");
-			namelist.add("");
-		
-			}
-		else if(namelist.isEmpty()) {
-			namelist.add("");
-			
-			}
-		else if(statuslist.isEmpty()) {
-			statuslist.add("");
-			
-			}
-		else {
-			
-		}
-	}*/
-
 	@Override
 	public  ResponseEntity<ResponseObject> searchbyIdAndEmail(UserInfo userdata) {
 		Result filterResult = new Result();
 		 ResponseObject object=new ResponseObject();
 			 FilterResult result= new FilterResult();
-			 
+				List<Object[]> temp = new ArrayList<>();
 		try {
-				 
-			List<Object[]> temp = userRepo.findByEmpIdOrEmployeeEmail(userdata.getEmpId(), userdata.getEmployeeEmail());
-			if(!(temp.isEmpty())) {
+			
+			if(userdata.getEmpId()!=0 && !(userdata.getEmployeeEmail().isEmpty())) {
+				 temp = userRepo.findByEmpIdAndEmployeeEmail(userdata.getEmpId(), userdata.getEmployeeEmail());
+				
+			}
+			else {
+				if(userdata.getEmpId()!=0 ) {
+					 temp = userRepo.findByEmpIdOrEmployeeEmail(userdata.getEmpId(), userdata.getEmployeeEmail());
+					
+				}else if(!(userdata.getEmployeeEmail().isEmpty())) {
+					 temp = userRepo.findByEmpIdOrEmployeeEmail(userdata.getEmpId(), userdata.getEmployeeEmail());
+					
+				}
+				else {
+					 status.setCode(400);
+				     status.setMessage("Any one field is required for Search");
+				     object.setStatus(status);
+				     filterResult.setFilterResult(null);
+				      object.setResult(filterResult);
+				      return new ResponseEntity<>(object, HttpStatus.BAD_REQUEST);
+		 
+					
+				}
+				
+			}	
+		if(!(temp.isEmpty())) {
 			for(Object[] resultobj1:temp) {
 					    	
 			    	  result.setEmpId((int) resultobj1[0]);
@@ -240,19 +242,14 @@ public class SearchServiceImpl implements SearchService{
 					     object.setStatus(status);
 					     filterResult.setFilterResult(result);
 					      object.setResult(filterResult);
-					   
-					   //  object.setFilterResult(result);
-		
+					 
 		    	 }  
 			} else {
-		    		 status.setCode(400);
+		    		 status.setCode(200);
 				     status.setMessage("No Data Found for Search Result from Database");
 				     object.setStatus(status);
 				     filterResult.setFilterResult(null);
-				      object.setResult(filterResult);
-				   
-				    // object.setFilterResult(null);
-				     return new ResponseEntity<>(object, HttpStatus.BAD_REQUEST);
+				     return new ResponseEntity<>(object, HttpStatus.OK);
 		 
 		    	 }  
 			}catch(Exception e) {

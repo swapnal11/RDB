@@ -332,6 +332,7 @@ public class RegistrationServiceImpl implements RegistrationService {
 	}
 
 
+
 	@Override
 	public ResponseEntity<ResponseObject> updateUser(UserInfo user) throws CustomerException, Exception {
 		RegistrationValidations.lengthValidationForName(user.getEmployeeName());
@@ -354,21 +355,23 @@ public class RegistrationServiceImpl implements RegistrationService {
 							userById.setExperienceYears(user.getExperienceYears());
 							userById.setDesignation(user.getDesignation());
 							userById.setStatus(user.getStatus());
-							
+							 UserInfo objUser = userRepo.save(userById);
 							List<Skill> skills = new ArrayList<>();
-							List<Skill> skilldata = user.getSkills();
+							List<Skill> skilldata = objUser.getSkills();
+							System.out.println("skilldata"+skilldata);
 							for(Skill userskill:skilldata) {
-								Skill skill = new Skill();
+							  skillRepo.deleteByUserInfoEmpId((userskill.getUserInfo().getEmpId()));
 								
-							//	  skill = (Skill) userRepo.updadteSkill(userskill.getSkillName(),userskill.getSkillExperience(),userskill.getId());
-							/*	skill.setUserInfo(userById);
-								skill.setSkillExperience(skilldb[1]);
-								skill.setSkillName(skilldb[0]);
-								skills.add(skill);*/
+						}
+							List<Skill> skillDataToUpdate = user.getSkills();
+							for(Skill obj:skillDataToUpdate) {
+								Skill skill = new Skill();
+								skill.setUserInfo(userById);
+								skill.setSkillExperience(obj.getSkillExperience());
+								skill.setSkillName(obj.getSkillName());
+								skills.add(skill);
 							}
-							//userById.setSkills(skills);
-						//	skillRepo.saveAll(skills);				
-							userRepo.save(userById);
+							skillRepo.saveAll(skills);				
 							 status.setCode(200);
 						     status.setMessage("Success");
 						     object.setStatus(status);
@@ -406,6 +409,6 @@ public class RegistrationServiceImpl implements RegistrationService {
 	    
 		 return new ResponseEntity<>(object, HttpStatus.OK);
 			
-	}		
+	}	
 }
 
