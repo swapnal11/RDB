@@ -269,7 +269,7 @@ public class SearchServiceImpl implements SearchService{
 			if(id!=0) {
 	        UserInfo user = userRepo.findByEmpId(id);
 	         if(user!=null && user.getEmpId()!=0) {
-	        	        		 
+	        	        		 if(user.isFlag()==true) {
 	        	 filterResult.setDesignation(user.getDesignation());
 	        	 filterResult.setEmpId(user.getEmpId());
 	        	 filterResult.setEmployeeEmail(user.getEmployeeEmail());
@@ -292,7 +292,15 @@ public class SearchServiceImpl implements SearchService{
 	           		}
 	           		filterResult.setSkills(skills);
 	                    }
-		
+	        	        		 else {
+	        	                	  status.setCode(400);
+	        	          		     status.setMessage("This user has been removed");
+	        	          		     object.setStatus(status);
+	        	          		     object.setResult(null);
+	        	          				return new ResponseEntity<>(object, HttpStatus.BAD_REQUEST);
+	        	             
+	        	                 }
+	         }
 	            		   
 	               else {
 	            	   status.setCode(400);
@@ -327,7 +335,7 @@ public class SearchServiceImpl implements SearchService{
 		 try {
 			 if(userinfo.getEmpId()!=0) {
 		 UserInfo userById = userRepo.findByEmpId(userinfo.getEmpId());
-		
+		if(userById.isFlag()==true) {
 			 if( userById!=null && userById.getEmpId()!=0 ) {
 				 userById.setFlag(false);
 				userRepo.save(userById);
@@ -342,7 +350,15 @@ public class SearchServiceImpl implements SearchService{
 		     object.setStatus(status);
 			return new ResponseEntity<>(object, HttpStatus.BAD_REQUEST);
 		 }
-		}
+		}else {
+      	  status.setCode(200);
+		     status.setMessage("This user no more exists in database");
+		     object.setStatus(status);
+		     object.setResult(null);
+				return new ResponseEntity<>(object, HttpStatus.OK);
+   
+       }
+			 }
 		 else {
 			 status.setCode(400);
 		     status.setMessage("EmpId is null");

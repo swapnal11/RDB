@@ -349,7 +349,7 @@ public class RegistrationServiceImpl implements RegistrationService {
 			 if(userById!=null) {	 
 			if(userById.getEmpId()==(user.getEmpId())) {			
 				if(userById.getEmployeeEmail().equals(user.getEmployeeEmail())) {
-						
+						if(userById.isFlag()==true) {
 							userById.setEmployeeName(user.getEmployeeName());
 							userById.setExperienceMonths(user.getExperienceMonths());
 							userById.setExperienceYears(user.getExperienceYears());
@@ -375,7 +375,16 @@ public class RegistrationServiceImpl implements RegistrationService {
 							 status.setCode(200);
 						     status.setMessage("Success");
 						     object.setStatus(status);
-						}
+						
+				}else {
+              	  status.setCode(400);
+        		     status.setMessage("Can't Update , User has been removed from Database");
+        		     object.setStatus(status);
+        		     object.setResult(null);
+        				return new ResponseEntity<>(object, HttpStatus.BAD_REQUEST);
+           
+               }
+			}
 			
 				else {
 					 status.setCode(400);
