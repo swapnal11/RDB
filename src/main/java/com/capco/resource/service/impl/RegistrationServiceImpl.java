@@ -270,6 +270,8 @@ public class RegistrationServiceImpl implements RegistrationService {
 							userById.setEmployeeName(user.getEmployeeName());
 							userById.setExperienceMonths(user.getExperienceMonths());
 							userById.setExperienceYears(user.getExperienceYears());
+							userById.setSqQuestion(user.getSqQuestion());
+							userById.setSqAnswer(user.getSqAnswer());
 							List<Skill> skills = new ArrayList<>();
 							List<Skill> skilldata = user.getSkills();
 							for(Skill userskill:skilldata) {

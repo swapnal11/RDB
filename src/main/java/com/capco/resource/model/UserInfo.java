@@ -50,8 +50,16 @@ public class UserInfo {
 	@Column
 	private int experienceMonths;
 	
+	@Column
+	private String sqQuestion;
+	
+	@Column
+	private String sqAnswer;
+	
 	@Column(columnDefinition = "BIT(1) default 1")
     private Boolean flag = true;
+	
+	
 
 	
 	//@OneToMany(cascade = CascadeType.PERSIST)
@@ -155,6 +163,31 @@ public class UserInfo {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+	
+
+	public String getSqQuestion() {
+		return sqQuestion;
+	}
+
+	public void setSqQuestion(String sqQuestion) {
+		this.sqQuestion = sqQuestion;
+	}
+
+	public String getSqAnswer() {
+		return sqAnswer;
+	}
+
+	public void setSqAnswer(String sqAnswer) {
+		this.sqAnswer = sqAnswer;
+	}
+
+	public Boolean getFlag() {
+		return flag;
+	}
+
+	public void setFlag(Boolean flag) {
+		this.flag = flag;
 	}
 
 	@Override
