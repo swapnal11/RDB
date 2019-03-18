@@ -77,10 +77,7 @@ public class SearchServiceImpl implements SearchService{
 				     status.setMessage("Success");
 				     object.setStatus(status);
 				     filterResult.setFilterlist(resultobj2);
-				      object.setResult(filterResult);
-				    
-				   //  object.setFilterlist((resultobj2));
-				     
+				 
 				}
 			
 			}

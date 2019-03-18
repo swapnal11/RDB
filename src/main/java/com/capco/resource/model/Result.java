@@ -39,6 +39,12 @@ public class Result implements Serializable{
 	
 	private int experienceMonths;
 	
+	
+	private String sqQuestion;
+	
+	
+	private String sqAnswer;
+	
 	 private FilterResult filterResult;
 	    
 	    private List<FilterResult> filterlist = null;
@@ -171,6 +177,26 @@ public class Result implements Serializable{
 
 	public void setExperienceMonths(int experienceMonths) {
 		this.experienceMonths = experienceMonths;
+	}
+
+
+	public String getSqQuestion() {
+		return sqQuestion;
+	}
+
+
+	public void setSqQuestion(String sqQuestion) {
+		this.sqQuestion = sqQuestion;
+	}
+
+
+	public String getSqAnswer() {
+		return sqAnswer;
+	}
+
+
+	public void setSqAnswer(String sqAnswer) {
+		this.sqAnswer = sqAnswer;
 	}
 
 
