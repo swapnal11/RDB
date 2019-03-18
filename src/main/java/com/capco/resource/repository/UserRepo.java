@@ -38,6 +38,14 @@ public interface UserRepo extends JpaRepository<UserInfo, Long> {
 	
 	
 	
+	@Query(value="select *  from employee_info e where (e.emp_id= :emp_id or e.employee_email = :employee_email) and flag=1",nativeQuery= true)
+	UserInfo findByEmpIdOrEmail(@Param("emp_id") int emp_id, @Param("employee_email") String employee_email);
+	
+	
+	@Query(value="select *  from employee_info e where (e.emp_id= :emp_id and e.employee_email = :employee_email) and flag=1",nativeQuery= true)
+	UserInfo findByEmpIdAndEmail(@Param("emp_id") int emp_id,@Param("employee_email") String employee_email);
+	
+	
 	
 	@Query(value="select distinct e.emp_id empId ,e.employee_name employeeName,e.experience_years experienceYears ,GROUP_CONCAT(distinct s.skill) , e.status status from employee_info e, skills s where  (e.emp_id=s.emp_id and flag=1) and ( (e.experience_years = :experience_years and e.status in(:status) )) group by s.emp_Id",nativeQuery= true)
 	List<Object[]> findByExperienceYearsAndStatusIn(@Param("experience_years") int experience_years,@Param("status") List<String> status);

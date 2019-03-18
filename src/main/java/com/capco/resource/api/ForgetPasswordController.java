@@ -35,11 +35,11 @@ public class ForgetPasswordController {
 		
 		}
 	
-	@GetMapping(value = "/searchUserById/{id}")
-    public  ResponseEntity<ResponseObject> searchbyId(@PathVariable int id ) throws CustomerException, Exception {
+	@PostMapping(value = "/searchUserByIdorEmail")
+    public  ResponseEntity<ResponseObject> searchbyId(@RequestBody UserInfo user) throws CustomerException, Exception {
            
 			
-		return forgetpasswordservice.searchbyId(id);
+		return forgetpasswordservice.searchbyId(user);
            
          
            

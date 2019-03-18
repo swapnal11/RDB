@@ -10,6 +10,6 @@ public interface ForgetPasswordService {
 	
 	public  ResponseEntity<ResponseObject> forgotpassword(UserInfo user) throws CustomerException, Exception;
 
-	 public  ResponseEntity<ResponseObject> searchbyId(int id) throws CustomerException, Exception;
+	 public  ResponseEntity<ResponseObject> searchbyId(UserInfo user) throws CustomerException, Exception;
 
 }

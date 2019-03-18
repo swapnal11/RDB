@@ -40,6 +40,7 @@ public class ForgetPasswordServiceImpl implements ForgetPasswordService {
 					if(user.getSqQuestion().equals(userById.getSqQuestion()) && user.getSqAnswer().equals(userById.getSqAnswer())){
 									
 						if(user!=null) {
+							if(userById.isFlag()==true) {
 							
 							userById.setPassword(user.getPassword());	
 							
@@ -47,6 +48,14 @@ public class ForgetPasswordServiceImpl implements ForgetPasswordService {
 							 status.setCode(200);
 						     status.setMessage("Success");
 						     object.setStatus(status);
+						}else {
+							 status.setCode(400);
+		          		     status.setMessage("This user has been removed");
+		          		     object.setStatus(status);
+		          		     object.setResult(null);
+		          				return new ResponseEntity<>(object, HttpStatus.BAD_REQUEST);
+		            
+						}
 						}
 						else {
 							 status.setCode(400);
@@ -100,46 +109,58 @@ public class ForgetPasswordServiceImpl implements ForgetPasswordService {
 	}
 
 	@Override
-	public ResponseEntity<ResponseObject> searchbyId(int id) throws CustomerException, Exception {
+	public ResponseEntity<ResponseObject> searchbyId(UserInfo user) throws CustomerException, Exception {
 		Result filterResult = new Result();
 		 ResponseObject object=new ResponseObject();
+		    UserInfo temp = new UserInfo();
+		    
 		try {
-			if(id!=0) {
-	        UserInfo user = userRepo.findByEmpId(id);
-	         if(user!=null && user.getEmpId()!=0) {
-	        	   if(user.isFlag()==true) {
-	        	 filterResult.setSqAnswer(user.getSqAnswer());
-	        	 filterResult.setSqQuestion(user.getSqQuestion());
+			
+			if(user.getEmpId()!=0 && !(user.getEmployeeEmail().isEmpty())) {
+				 temp = userRepo.findByEmpIdAndEmail(user.getEmpId(), user.getEmployeeEmail());
+				
+			}
+			else {
+				if(user.getEmpId()!=0 ) {
+					 temp = userRepo.findByEmpIdOrEmail(user.getEmpId(), user.getEmployeeEmail());
+					
+				}else if(!(user.getEmployeeEmail().isEmpty())) {
+					 temp = userRepo.findByEmpIdOrEmail(user.getEmpId(), user.getEmployeeEmail());
+					
+				}
+				else {
+					 status.setCode(400);
+				     status.setMessage("Any one field is required for Search");
+				     object.setStatus(status);
+				     filterResult.setFilterResult(null);
+				      object.setResult(filterResult);
+				      return new ResponseEntity<>(object, HttpStatus.BAD_REQUEST);
+		 
+					
+				}
+				
+			}
+			
+				if((temp!=null)){
+	        	   
+	        	
+	        	 filterResult.setSqQuestion(temp.getSqQuestion());
 	        	 status.setCode(200);
 	                status.setMessage("Success");
 	                object.setStatus(status);
 	                object.setResult(filterResult);
 	           	
-	                    }
-	        	        		 else {
-	        	                	  status.setCode(400);
-	        	          		     status.setMessage("This user has been removed");
-	        	          		     object.setStatus(status);
-	        	          		     object.setResult(null);
-	        	          				return new ResponseEntity<>(object, HttpStatus.BAD_REQUEST);
-	        	             
-	        	                 }
+	                   
 	         }
 	            		   
 	               else {
 	            	   status.setCode(400);
-	        		     status.setMessage("No data found for EmpID");
+	        		     status.setMessage("No data found for Search Result");
 	        		     object.setStatus(status);
 	        				return new ResponseEntity<>(object, HttpStatus.BAD_REQUEST);
 	            	   
 	               }   
-			}else {
-				  status.setCode(400);
-    		     status.setMessage("EmpId is null");
-    		     object.setStatus(status);
-    				return new ResponseEntity<>(object, HttpStatus.BAD_REQUEST);
-        
-			}
+			
 			              
 			}catch(Exception e) {
 				 e.printStackTrace(); 
