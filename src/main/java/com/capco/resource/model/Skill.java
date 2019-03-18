@@ -73,6 +73,12 @@ public class Skill {
 		this.skillExperience = skillExperience;
 	}
 
+	@Override
+	public String toString() {
+		return "Skill [id=" + id + ", userInfo=" + userInfo + ", skillName=" + skillName + ", skillExperience="
+				+ skillExperience + "]";
+	}
+
 	
 
 	

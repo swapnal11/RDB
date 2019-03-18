@@ -232,14 +232,14 @@ public class RegistrationServiceImpl implements RegistrationService {
 	@Override
 	public ResponseEntity<ResponseObject> userRegister(UserInfo user) throws CustomerException,Exception {
 		
-		RegistrationValidations.lengthValidationForName(user.getEmployeeName());
+	/*	RegistrationValidations.lengthValidationForName(user.getEmployeeName());
 		RegistrationValidations.lengthValidationForNumber(user.getExperienceMonths());
 		RegistrationValidations.lengthValidationForNumber(user.getExperienceYears());
 		for(Skill userskill:user.getSkills()) {
 			RegistrationValidations.lengthValidationForName(userskill.getSkillName());
 			RegistrationValidations.lengthValidationForNumber(userskill.getSkillExperience());		
 		}
-		
+		*/
 		 ResponseObject object=new ResponseObject();
 			 UserInfo userById = userRepo.findByEmpId(user.getEmpId());	
 			 try {
