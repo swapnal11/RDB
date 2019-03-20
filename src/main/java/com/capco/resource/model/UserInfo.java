@@ -9,6 +9,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -59,6 +60,17 @@ public class UserInfo {
 	@Column(columnDefinition = "BIT(1) default 1")
     private Boolean flag = true;
 	
+	@Column
+    private String fileName;
+
+	@Column
+    private String fileType;
+
+    @Lob
+    private byte[] data;
+    
+  
+	
 	
 
 	
@@ -70,6 +82,14 @@ public class UserInfo {
             fetch = FetchType.LAZY
     )
 	private List<Skill> skills;
+/*	
+	@OneToMany(
+            cascade = {CascadeType.PERSIST, CascadeType.MERGE},
+            orphanRemoval = false,
+            mappedBy = "userInfo",
+            fetch = FetchType.LAZY
+    )
+	private List<DBFile> dbfile;*/
 	
 	
 	public List<Skill> getSkills() {
@@ -188,6 +208,33 @@ public class UserInfo {
 
 	public void setFlag(Boolean flag) {
 		this.flag = flag;
+		
+	}
+	
+	
+
+	public String getFileName() {
+		return fileName;
+	}
+
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
+	}
+
+	public String getFileType() {
+		return fileType;
+	}
+
+	public void setFileType(String fileType) {
+		this.fileType = fileType;
+	}
+
+	public byte[] getData() {
+		return data;
+	}
+
+	public void setData(byte[] data) {
+		this.data = data;
 	}
 
 	@Override
@@ -197,6 +244,9 @@ public class UserInfo {
 				+ projectManager + ", experienceYear=" + experienceYears + ", experienceMonth=" + experienceMonths
 				+ ", skills=" + skills + "]";
 	}
+
+	
+	
 
 	
 

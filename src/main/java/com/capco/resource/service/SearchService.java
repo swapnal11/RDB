@@ -19,6 +19,8 @@ public interface SearchService {
 	 public  ResponseEntity<ResponseObject> searchbyId(int id);
 		
 	 public  ResponseEntity<ResponseObject> deleteUserbyId(UserInfo user);
+	 
+	 public UserInfo getFile(int fileId);
 		
 
 }

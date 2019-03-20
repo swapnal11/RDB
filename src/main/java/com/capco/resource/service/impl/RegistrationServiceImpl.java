@@ -10,8 +10,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.capco.resource.exceptions.CustomerException;
+import com.capco.resource.exceptions.FileStorageException;
+
 import com.capco.resource.model.FilterResult;
 import com.capco.resource.model.ResponseObject;
 import com.capco.resource.model.Result;
@@ -336,7 +340,7 @@ public class RegistrationServiceImpl implements RegistrationService {
 
 
 	@Override
-	public ResponseEntity<ResponseObject> updateUser(UserInfo user) throws CustomerException, Exception {
+	public ResponseEntity<ResponseObject> updateUser(MultipartFile file,UserInfo user) throws CustomerException, Exception {
 		RegistrationValidations.lengthValidationForName(user.getEmployeeName());
 		RegistrationValidations.lengthValidationForNumber(user.getExperienceMonths());
 		RegistrationValidations.lengthValidationForNumber(user.getExperienceYears());
@@ -347,6 +351,7 @@ public class RegistrationServiceImpl implements RegistrationService {
 		
 		 ResponseObject object=new ResponseObject();
 			 UserInfo userById = userRepo.findByEmpId(user.getEmpId());	
+			 String fileName = StringUtils.cleanPath(file.getOriginalFilename());
 			 try {
 			 if(userById!=null) {	 
 			if(userById.getEmpId()==(user.getEmpId())) {			
@@ -357,6 +362,14 @@ public class RegistrationServiceImpl implements RegistrationService {
 							userById.setExperienceYears(user.getExperienceYears());
 							userById.setDesignation(user.getDesignation());
 							userById.setStatus(user.getStatus());
+							 if(fileName.contains("..")) {
+					                throw new FileStorageException("Sorry! Filename contains invalid path sequence " + fileName);
+					            }
+
+					            userById.setFileName(fileName);
+					            userById.setFileType(file.getContentType());
+					            userById.setData(file.getBytes());
+					       
 							 UserInfo objUser = userRepo.save(userById);
 							List<Skill> skills = new ArrayList<>();
 							List<Skill> skilldata = objUser.getSkills();

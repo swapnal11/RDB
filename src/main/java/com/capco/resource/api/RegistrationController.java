@@ -10,7 +10,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.capco.resource.exceptions.CustomerException;
 import com.capco.resource.model.ResponseObject;
@@ -18,6 +21,7 @@ import com.capco.resource.model.Skill;
 import com.capco.resource.model.UserInfo;
 
 import com.capco.resource.service.RegistrationService;
+import com.google.gson.Gson;
 
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
@@ -48,9 +52,15 @@ public class RegistrationController {
 		
 		}
 	
-	@PutMapping(value = "/updateUser")
-	 public ResponseEntity<String> updateUser(@RequestBody UserInfo user) throws CustomerException, Exception {
-		response = registrationservice.updateUser(user);
+	@PostMapping(value = "/updateUser",consumes =  "multipart/form-data",produces= "application/json")
+	 public ResponseEntity<String> updateUser(@RequestPart("file") MultipartFile file, @RequestPart("user") String user) throws CustomerException, Exception {
+		System.out.println("In update Controller");
+        String jsonResponseString = user;
+        Gson gson = new Gson();
+        UserInfo userInfo = gson.fromJson(jsonResponseString, UserInfo.class);
+      
+
+		response = registrationservice.updateUser(file,userInfo);
 		return response;
 		
 		

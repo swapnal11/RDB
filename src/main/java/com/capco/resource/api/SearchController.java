@@ -13,7 +13,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.capco.resource.model.FilterData;
+import org.springframework.core.io.ByteArrayResource;
 import com.capco.resource.model.FilterResult;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.core.io.Resource;
 import com.capco.resource.model.ResponseObject;
 import com.capco.resource.model.Skill;
 import com.capco.resource.model.UserInfo;
@@ -73,5 +78,17 @@ ResponseEntity response;
          
            
            }
+	
+	 @GetMapping("/downloadFile/{empId}")
+	    public ResponseEntity<Resource> downloadFile(@PathVariable int empId) {
+	        // Load file from database
+	        UserInfo dbFile = serachservice.getFile(empId);
+
+	        return ResponseEntity.ok()
+	                .contentType(MediaType.parseMediaType(dbFile.getFileType()))
+	                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + dbFile.getFileName() + "\"")
+	                .body(new ByteArrayResource(dbFile.getData()));
+	    }
+
 
 }

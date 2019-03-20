@@ -12,6 +12,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
 import org.modelmapper.ModelMapper;
+import com.capco.resource.exceptions.MyFileNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -372,4 +373,15 @@ public class SearchServiceImpl implements SearchService{
 		 return new ResponseEntity<>(object, HttpStatus.OK);
 		
 	}
+	
+	
+	  public UserInfo getFile(int fileId) {
+		  try {
+	        return userRepo.findByEmpId(fileId);
+		  }catch(Exception e) {
+	                
+	                throw	new MyFileNotFoundException("File not found with id " + fileId); 
+	                
+	                }
+	    }
 }
