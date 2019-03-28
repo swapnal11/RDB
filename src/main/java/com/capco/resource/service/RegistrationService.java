@@ -19,8 +19,9 @@ public interface RegistrationService {
 	 
 	 public ResponseEntity<ResponseObject> retrive();
 
-	public  ResponseEntity<ResponseObject> updateUser(MultipartFile file,UserInfo user) throws CustomerException, Exception;;
+	public  ResponseEntity<ResponseObject> updateUser(MultipartFile file,MultipartFile image,UserInfo user) throws CustomerException, Exception;;
 	 
+	//public  ResponseEntity<ResponseObject> updateUser(MultipartFile file,UserInfo user) throws CustomerException, Exception;;
 	 
 	 
 	 

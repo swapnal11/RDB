@@ -65,6 +65,12 @@ public class UserInfo {
 
 	@Column
     private String fileType;
+	
+	@Column
+    private String imageName;
+
+	@Column
+    private String imageType;
 
     @Lob
     private byte[] data;
@@ -235,6 +241,26 @@ public class UserInfo {
 
 	public void setData(byte[] data) {
 		this.data = data;
+	}
+	
+	
+	
+	
+
+	public String getImageName() {
+		return imageName;
+	}
+
+	public void setImageName(String imageName) {
+		this.imageName = imageName;
+	}
+
+	public String getImageType() {
+		return imageType;
+	}
+
+	public void setImageType(String imageType) {
+		this.imageType = imageType;
 	}
 
 	@Override

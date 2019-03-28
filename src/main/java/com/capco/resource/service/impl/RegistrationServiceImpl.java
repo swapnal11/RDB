@@ -1,5 +1,6 @@
 package com.capco.resource.service.impl;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -287,16 +288,15 @@ public class RegistrationServiceImpl implements RegistrationService {
 							}
 							skillRepo.saveAll(skills);				
 							userRepo.save(userById);
-							 status.setCode(200);
-						     status.setMessage("Success");
+							status.setCode(200);
+						    status.setMessage("Success");
 						     object.setStatus(status);
 						}
 						else {
 							 status.setCode(400);
 						     status.setMessage("Please Enter the details");
 						     object.setStatus(status);
-						     
-								return new ResponseEntity<>(object, HttpStatus.BAD_REQUEST);
+							return new ResponseEntity<>(object, HttpStatus.BAD_REQUEST);
 						} 
 					}
 				
@@ -340,18 +340,21 @@ public class RegistrationServiceImpl implements RegistrationService {
 
 
 	@Override
-	public ResponseEntity<ResponseObject> updateUser(MultipartFile file,UserInfo user) throws CustomerException, Exception {
-		RegistrationValidations.lengthValidationForName(user.getEmployeeName());
+	public ResponseEntity<ResponseObject> updateUser(MultipartFile file,MultipartFile image,UserInfo user) throws CustomerException, Exception {
+		/*RegistrationValidations.lengthValidationForName(user.getEmployeeName());
 		RegistrationValidations.lengthValidationForNumber(user.getExperienceMonths());
 		RegistrationValidations.lengthValidationForNumber(user.getExperienceYears());
 		for(Skill userskill:user.getSkills()) {
 			RegistrationValidations.lengthValidationForName(userskill.getSkillName());
 			RegistrationValidations.lengthValidationForNumber(userskill.getSkillExperience());		
 		}
-		
+		*/
 		 ResponseObject object=new ResponseObject();
 			 UserInfo userById = userRepo.findByEmpId(user.getEmpId());	
 			 String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+			 String imageName = StringUtils.cleanPath(image.getOriginalFilename());
+				
+			 UserInfo objUser= new UserInfo();
 			 try {
 			 if(userById!=null) {	 
 			if(userById.getEmpId()==(user.getEmpId())) {			
@@ -362,21 +365,26 @@ public class RegistrationServiceImpl implements RegistrationService {
 							userById.setExperienceYears(user.getExperienceYears());
 							userById.setDesignation(user.getDesignation());
 							userById.setStatus(user.getStatus());
+							try {
 							 if(fileName.contains("..")) {
 					                throw new FileStorageException("Sorry! Filename contains invalid path sequence " + fileName);
 					            }
-
 					            userById.setFileName(fileName);
 					            userById.setFileType(file.getContentType());
 					            userById.setData(file.getBytes());
-					       
-							 UserInfo objUser = userRepo.save(userById);
-							List<Skill> skills = new ArrayList<>();
+					            userById.setImageName(imageName);
+					           userById.setImageType(image.getContentType());
+					             objUser = userRepo.save(userById);
+								
+							}catch(IOException ex) {
+								throw new FileStorageException("Could not store file " + fileName + ". Please try again!", ex);
+							     
+							}
+								List<Skill> skills = new ArrayList<>();
 							List<Skill> skilldata = objUser.getSkills();
 							System.out.println("skilldata"+skilldata);
 							for(Skill userskill:skilldata) {
-							  skillRepo.deleteByUserInfoEmpId((userskill.getUserInfo().getEmpId()));
-								
+							  skillRepo.deleteByUserInfoEmpId((userskill.getUserInfo().getEmpId()));			
 						}
 							List<Skill> skillDataToUpdate = user.getSkills();
 							for(Skill obj:skillDataToUpdate) {
