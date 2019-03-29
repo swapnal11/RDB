@@ -22,6 +22,8 @@ public interface UserRepo extends JpaRepository<UserInfo, Long> {
 */	
 	UserInfo findByEmpId(int i);
 	
+	
+	
 	@Query(value="select distinct e.emp_id empId ,e.employee_name employeeName,e.experience_years experienceYears ,GROUP_CONCAT(distinct s.skill) ,e.status status from employee_info e, skills s where( e.emp_id=s.emp_id and flag=1) group by s.emp_Id",nativeQuery= true)
 	List<Object[]> findAllUser();
 

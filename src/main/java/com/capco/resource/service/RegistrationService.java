@@ -2,6 +2,8 @@ package com.capco.resource.service;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -15,14 +17,15 @@ public interface RegistrationService {
 
 	public  ResponseEntity<ResponseObject> userRegister(UserInfo user) throws CustomerException, Exception;
 
-	public ResponseEntity<ResponseObject> verify(UserInfo login);
+	public ResponseEntity<ResponseObject> verify(UserInfo login,HttpServletResponse response);
 	 
 	 public ResponseEntity<ResponseObject> retrive();
+	 
 
 	public  ResponseEntity<ResponseObject> updateUser(MultipartFile file,MultipartFile image,UserInfo user) throws CustomerException, Exception;;
 	 
-	//public  ResponseEntity<ResponseObject> updateUser(MultipartFile file,UserInfo user) throws CustomerException, Exception;;
-	 
+	/*public  UserInfo getFile(String  empId) ;
+	*/ 
 	 
 	 
 }

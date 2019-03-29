@@ -2,8 +2,10 @@ package com.capco.resource.service.impl;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
@@ -16,7 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.capco.resource.exceptions.CustomerException;
 import com.capco.resource.exceptions.FileStorageException;
-
+import com.capco.resource.exceptions.MyFileNotFoundException;
 import com.capco.resource.model.FilterResult;
 import com.capco.resource.model.ResponseObject;
 import com.capco.resource.model.Result;
@@ -102,7 +104,7 @@ public class RegistrationServiceImpl implements RegistrationService {
 	 	}	
 	
 	
-	public ResponseEntity<ResponseObject> verify(UserInfo login) {
+	public ResponseEntity<ResponseObject> verify(UserInfo login,HttpServletResponse response) {
 	     Result result = new Result();
 		 ResponseObject object=new ResponseObject();
 		
@@ -124,6 +126,9 @@ public class RegistrationServiceImpl implements RegistrationService {
                    result.setEmployeeName(user.getEmployeeName());
                    result.setExperienceYears(user.getExperienceYears());
                    result.setExperienceMonths(user.getExperienceMonths());
+                   result.setFileName(user.getFileName());
+                   byte[] imagedata= user.getData();
+                 result.setImagedata(imagedata);
                    List<Skill> skills= new ArrayList<>();
            		 List<Skill> skilldetails = user.getSkills();
            		 for(Skill skillinfo:skilldetails) {
@@ -135,6 +140,7 @@ public class RegistrationServiceImpl implements RegistrationService {
                 status.setMessage("Success");
                 object.setStatus(status);
                 object.setResult(result);
+                
            		}
                     result.setSkills(skills);
             	  }else {
@@ -374,6 +380,7 @@ public class RegistrationServiceImpl implements RegistrationService {
 					            userById.setData(file.getBytes());
 					            userById.setImageName(imageName);
 					           userById.setImageType(image.getContentType());
+					           userById.setImagedata(image.getBytes());
 					             objUser = userRepo.save(userById);
 								
 							}catch(IOException ex) {
@@ -442,5 +449,19 @@ public class RegistrationServiceImpl implements RegistrationService {
 		 return new ResponseEntity<>(object, HttpStatus.OK);
 			
 	}	
+	
+	
+	 public UserInfo getFile(String fileId) {
+		 int id = Integer.parseInt(fileId);
+		 try {
+	        return userRepo.findByEmpId(id);
+	             
+	    }catch(Exception e) {
+	    	throw new MyFileNotFoundException("File not found with id " + fileId);
+	    	}
+	    }
+
+
+	
 }
 

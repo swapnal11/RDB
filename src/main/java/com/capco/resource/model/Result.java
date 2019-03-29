@@ -9,6 +9,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -25,6 +26,20 @@ public class Result implements Serializable{
 	private String employeeEmail;
 	private String designation;
 	private String password;
+	@Column
+    private String fileName;
+
+	@Column
+    private String fileType;
+	
+	@Column
+    private String imageName;
+
+	@Column
+    private String imageType;
+
+    @Lob
+    private byte[] data;
 	
 	
 	private String status;
@@ -32,7 +47,9 @@ public class Result implements Serializable{
 	
 	private String projectManager;
 	
-	
+	  @Lob
+	    private byte[] imagedata;
+	  
 	
 	private int experienceYears;
 	
@@ -45,7 +62,19 @@ public class Result implements Serializable{
 	
 	private String sqAnswer;
 	
-	 private FilterResult filterResult;
+	
+	
+	 public byte[] getImagedata() {
+		return imagedata;
+	}
+
+
+	public void setImagedata(byte[] imagedata) {
+		this.imagedata = imagedata;
+	}
+
+
+	private FilterResult filterResult;
 	    
 	    private List<FilterResult> filterlist = null;
 	   
@@ -197,6 +226,56 @@ public class Result implements Serializable{
 
 	public void setSqAnswer(String sqAnswer) {
 		this.sqAnswer = sqAnswer;
+	}
+
+
+	public String getFileName() {
+		return fileName;
+	}
+
+
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
+	}
+
+
+	public String getFileType() {
+		return fileType;
+	}
+
+
+	public void setFileType(String fileType) {
+		this.fileType = fileType;
+	}
+
+
+	public String getImageName() {
+		return imageName;
+	}
+
+
+	public void setImageName(String imageName) {
+		this.imageName = imageName;
+	}
+
+
+	public String getImageType() {
+		return imageType;
+	}
+
+
+	public void setImageType(String imageType) {
+		this.imageType = imageType;
+	}
+
+
+	public byte[] getData() {
+		return data;
+	}
+
+
+	public void setData(byte[] data) {
+		this.data = data;
 	}
 
 

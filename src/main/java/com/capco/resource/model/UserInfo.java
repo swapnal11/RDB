@@ -75,11 +75,22 @@ public class UserInfo {
     @Lob
     private byte[] data;
     
+    
+    @Lob
+    private byte[] imagedata;
   
 	
 	
 
 	
+	public byte[] getImagedata() {
+		return imagedata;
+	}
+
+	public void setImagedata(byte[] imagedata) {
+		this.imagedata = imagedata;
+	}
+
 	//@OneToMany(cascade = CascadeType.PERSIST)
 	@OneToMany(
             cascade = {CascadeType.PERSIST, CascadeType.MERGE},

@@ -4,10 +4,14 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,7 +19,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 
 import com.capco.resource.exceptions.CustomerException;
 import com.capco.resource.model.ResponseObject;
@@ -81,15 +88,24 @@ public class RegistrationController {
 		
 		}
 	
-	
+	/* @GetMapping("/downloadFile/{empId}")
+	    public ResponseEntity<ByteArrayResource> downloadFile(@PathVariable String empId) {
+	        // Load file from database
+	        UserInfo dbFile = registrationservice.getFile(empId);
+
+	        return ResponseEntity.ok()
+	                .contentType(MediaType.parseMediaType(dbFile.getFileType()))
+	                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + dbFile.getFileName() + "\"")
+	                .body(new ByteArrayResource(dbFile.getData()));
+	    }*/
 	
 	
 	
 	
 	@PostMapping(value = "/login")
-    public ResponseEntity<ResponseObject> verify(@RequestBody UserInfo login) {
+    public ResponseEntity<ResponseObject> verify(@RequestBody UserInfo login,HttpServletResponse response1) {
            
-            response = registrationservice.verify(login);
+            response = registrationservice.verify(login,response1);
            
            return response;
            

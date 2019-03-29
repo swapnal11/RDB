@@ -81,7 +81,7 @@ ResponseEntity response;
 	
 	 @GetMapping("/downloadFile/{empId}")
 	    public ResponseEntity<Resource> downloadFile(@PathVariable int empId) {
-	        // Load file from database
+
 	        UserInfo dbFile = serachservice.getFile(empId);
 
 	        return ResponseEntity.ok()
